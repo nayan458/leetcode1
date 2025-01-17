@@ -8,13 +8,13 @@ class Solution {
                 matrix[j][i] = temp;
             }
         }
-        int temp = matrix[0][0];
+        // rotate
         for( int i = 0; i < matrix.length; i++){
-            int l=0,r=matrix[i].length-1;
-            while(l<=r){
-                int yz = matrix[i][l];
+            int l = 0, r = matrix.length - 1;
+            while(l < r){
+                int temp = matrix[i][l];
                 matrix[i][l] = matrix[i][r];
-                matrix[i][r] = yz;
+                matrix[i][r] = temp;
                 l++;
                 r--;
             }
