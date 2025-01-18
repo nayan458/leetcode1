@@ -40,11 +40,11 @@ class Solution {
             frequencyCount.put(s.charAt(i),frequencyCount.getOrDefault(s.charAt(i),0)+1);
         int count = 0;
         for(int i = 0; i < m; i++) {
-            if(frequencyCount.getOrDefault(t.charAt(i),0)==0)
-                return false;
-            count = frequencyCount.get(t.charAt(i));
+            // if(frequencyCount.getOrDefault(t.charAt(i),0)==0)
+            //     return false;
+            count = frequencyCount.getOrDefault(t.charAt(i),0);
             frequencyCount.put(t.charAt(i),--count);
-            if(count == -1)
+            if(count < 0)
                 return false;
         }
         return true;
