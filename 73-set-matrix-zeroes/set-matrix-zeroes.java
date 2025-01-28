@@ -10,11 +10,7 @@ class Solution {
                     col.add(j);
                 }
             }
-
-        System.out.println(row);
-        System.out.println(col);
-
-        
+            
         for(int i = 0; i < matrix.length; i++){
             
             if(row.contains(i)){
