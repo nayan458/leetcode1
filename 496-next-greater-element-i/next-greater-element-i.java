@@ -11,15 +11,12 @@ class Solution {
             int elem = nums1[i];
             nums1[i] = -1;
 
-            System.out.println(indexInNums2);
 
             for(int j = indexInNums2; j < nums2.length; j++) {
-
                 if(nums2[j] > elem){
                     nums1[i] = nums2[j];
                     break;
                 }
-                // System.out.printf("nums2[j]: %d %t elem")
             }
         }
         return nums1;    
