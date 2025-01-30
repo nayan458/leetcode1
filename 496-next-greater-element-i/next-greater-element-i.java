@@ -7,17 +7,17 @@ class Solution {
         System.out.println(hm);
         for(int i = 0; i < nums1.length; i++){
             
-            // int indexInNums2 = hm.get(nums1[i]);    // get the index of the element in the array nums2
+            int indexInNums2 = hm.get(nums1[i]);    // get the index of the element in the array nums2
             int elem = nums1[i];
             nums1[i] = -1;
-            int j = 0;
 
-            for(j = 0; j < nums2.length; j++) {
-                if(nums2[j] == elem)
-                    break;
-            }
+            // int j = 0;
+            // for(j = 0; j < nums2.length; j++) {
+            //     if(nums2[j] == elem)
+            //         break;
+            // }
 
-            for(; j < nums2.length; j++) {
+            for(int j = indexInNums2; j < nums2.length; j++) {
                 if(nums2[j] > elem){
                     nums1[i] = nums2[j];
                     break;
