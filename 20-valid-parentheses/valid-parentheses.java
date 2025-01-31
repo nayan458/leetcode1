@@ -3,12 +3,7 @@ class Solution {
         Stack<Character> st = new Stack<>();
         for(int i = 0; i < str.length(); i++){
             char ch = str.charAt(i);
-            if(ch == '(' || ch == '{' ||ch == '[' )
-                st.push(str.charAt(i));
-            else{
-                if(st.empty())
-                    return false;
-
+            try{
                 switch(ch) {
                     case ')':
                         if(st.peek() == '(') {
@@ -29,8 +24,11 @@ class Solution {
                         }
                         return false;
                     default:
+                        st.push(str.charAt(i));
                         break;
                 }
+            } catch (Exception  e) {
+                return false;
             }
         }
         return st.empty() ? true : false;
