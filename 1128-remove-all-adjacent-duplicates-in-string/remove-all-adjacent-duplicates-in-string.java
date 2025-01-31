@@ -3,10 +3,8 @@ class Solution {
         StringBuilder ans = new StringBuilder();
         int top = -1;
         for(int i = 0; i < s.length(); i++){
-            if(top != -1 && s.charAt(i) == ans.charAt(top)){
-                ans.setLength(ans.length() - 1);
-                --top;
-            }
+            if(top != -1 && s.charAt(i) == ans.charAt(top))
+                ans.setLength(top--);
             else{
                 ans.append(s.charAt(i));
                 ++top;
