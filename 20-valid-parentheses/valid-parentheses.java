@@ -24,7 +24,7 @@ class Solution {
                         }
                         return false;
                     default:
-                        st.push(str.charAt(i));
+                        st.push(ch);
                         break;
                 }
             } catch (Exception  e) {
