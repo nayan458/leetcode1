@@ -31,6 +31,6 @@ class Solution {
                 return false;
             }
         }
-        return st.empty() ? true : false;
+        return st.empty();
     }
 }
