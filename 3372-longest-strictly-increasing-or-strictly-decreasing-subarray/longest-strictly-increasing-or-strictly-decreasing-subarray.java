@@ -19,10 +19,11 @@ class Solution {
                     currentMax = 2;
                 }
             } else {
-               
+                if(state!=0){
                     state = 0;
                     max = Math.max(currentMax,max);
                     currentMax = 0;
+                }
             }
             System.out.println(state);
             ++i;
