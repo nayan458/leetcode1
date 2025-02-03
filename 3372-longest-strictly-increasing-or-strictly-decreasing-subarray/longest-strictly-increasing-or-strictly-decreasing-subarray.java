@@ -3,10 +3,8 @@ class Solution {
         int max = 1;
         int drop = 1; 
         int jump = 1;
-        // int i = 0;
-        int n = nums.length;
 
-        for(int i = 0 ; i < n - 1; i++) {
+        for(int i = 0 ; i < nums.length - 1; i++) {
             if(nums[i] > nums[i+1]) {
                 drop++;
                 jump = 1;
