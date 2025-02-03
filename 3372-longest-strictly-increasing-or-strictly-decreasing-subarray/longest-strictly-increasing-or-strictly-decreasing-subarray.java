@@ -19,7 +19,7 @@ class Solution {
             max = Math.max(Math.max(drop,jump), max);
         }
 
-        return  max;
+        return max;
         
     }
 }
