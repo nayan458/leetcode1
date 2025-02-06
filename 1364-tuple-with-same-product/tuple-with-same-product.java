@@ -9,17 +9,15 @@ class Solution {
                 if(nums[i] == nums[j])
                     continue;
                 int target = nums[i]*nums[j];
+                count += hm.getOrDefault(target,0) * 8;
                 hm.put(target,hm.getOrDefault(target,0)+1);
             }
         }
 
-        // System.out.println(hm);
-        // for (Map.Entry<Integer,Integer> mapElement : hm.entrySet()) {
-        for (int n: hm.values()) 
-            if(n > 1)
-                count += ((n * (n - 1))/2);
-            // System.out.printf("n = %d, combination: %d, count: %d\n",n,((n / 2) * (n - 1)),count);
+        // for (int n: hm.values()) 
+        //     if(n > 1)
+        //         count += ((n * (n - 1))/2);
 
-        return count * 8;
+        return count;
     }
 }
