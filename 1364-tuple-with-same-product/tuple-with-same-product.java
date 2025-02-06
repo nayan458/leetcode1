@@ -10,15 +10,14 @@ class Solution {
                     continue;
                 int target = nums[i]*nums[j];
                 count += hm.getOrDefault(target,0) * 8;
-                System.out.println(count);
                 hm.put(target,hm.getOrDefault(target,0)+1);
             }
         }
 
-        // for (int n: hm.values()) 
-        //     if(n > 1)
-        //         count += ((n * (n - 1))/2);
-
         return count;
     }
 }
+
+// for (int n: hm.values()) 
+        //     if(n > 1)
+        //         count += ((n * (n - 1))/2);
