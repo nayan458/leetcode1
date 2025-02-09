@@ -1,26 +1,26 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+
         Map<Integer, Integer> hm = new HashMap<>();
         Stack<Integer> s = new Stack<>();
+
         for(int i = 0; i < nums2.length; i++) {
-            // if(s.isEmpty() || s.peek() > num2[i]) 
-            //     s.push(nums2[i]);
-            // else {
             while(!s.isEmpty() && nums2[i] > s.peek()) {
                 hm.put(s.pop(),nums2[i]);
             }
             s.push(nums2[i]);
-            // }
         }
-        while(!s.isEmpty()) {
+
+        while(!s.isEmpty()) 
             hm.put(s.pop(),-1);
-        }
-        for(int i = 0; i < nums1.length; i++) {
+
+        for(int i = 0; i < nums1.length; i++)
             nums1[i] = hm.get(nums1[i]);
-        }
+
         return nums1;
     }
 }
+
 // class Solution {
 //     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
 //         Map<Integer, Integer> hm = new HashMap<>();
