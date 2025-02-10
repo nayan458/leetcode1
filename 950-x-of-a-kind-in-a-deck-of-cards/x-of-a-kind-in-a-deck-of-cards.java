@@ -1,32 +1,68 @@
-class Solution {
+import java.util.HashMap;
+import java.util.Map;
 
-    public int gcd(int a, int b)  
-        {  
-            return b == 0? a: gcd(b, a % b);     
-        }
+class Solution {
+    
+    // Optimized Euclidean Algorithm for GCD
+    public int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
 
     public boolean hasGroupsSizeX(int[] deck) {
-        Map <Integer, Integer> hm = new HashMap<Integer,Integer>();
+        Map<Integer, Integer> freq = new HashMap<>();
 
-        for(int i = 0; i < deck.length; i++)
-            hm.put(deck[i], hm.getOrDefault(deck[i],0) + 1);
-        
-        Iterator<Map.Entry<Integer, Integer>> iterator = hm.entrySet().iterator();
-        Map.Entry<Integer, Integer> elem = iterator.next();
-        int a = elem.getValue();
-        int result = a;
-
-        while(iterator.hasNext()) {
-            elem = iterator.next();
-            int b = elem.getValue();
-            result = gcd(result,b);
-            a = b;
+        // Step 1: Count occurrences of each card
+        for (int num : deck) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
 
-        return result > 1 ? true : false;
+        // Step 2: Compute GCD of all frequency values
+        int result = -1; // Start with an invalid value
 
+        for (int count : freq.values()) {
+            if (result == -1) {
+                result = count;  // First frequency
+            } else {
+                result = gcd(result, count);
+            }
+            
+            // Early exit: If GCD becomes 1, return false immediately
+            if (result == 1) return false;
+        }
+
+        return result > 1;
     }
 }
+
+// class Solution {
+
+//     public int gcd(int a, int b)  
+//         {  
+//             return b == 0? a: gcd(b, a % b);     
+//         }
+
+//     public boolean hasGroupsSizeX(int[] deck) {
+//         Map <Integer, Integer> hm = new HashMap<Integer,Integer>();
+
+//         for(int i = 0; i < deck.length; i++)
+//             hm.put(deck[i], hm.getOrDefault(deck[i],0) + 1);
+        
+//         Iterator<Map.Entry<Integer, Integer>> iterator = hm.entrySet().iterator();
+//         Map.Entry<Integer, Integer> elem = iterator.next();
+//         int a = elem.getValue();
+//         int result = a;
+
+//         while(iterator.hasNext()) {
+//             elem = iterator.next();
+//             int b = elem.getValue();
+//             result = gcd(result,b);
+//             a = b;
+//         }
+
+//         return result > 1 ? true : false;
+
+//     }
+// }
 
 // class Solution {
 //     static int __gcd(int a, int b)  
