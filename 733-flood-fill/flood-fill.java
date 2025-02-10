@@ -1,35 +1,54 @@
 class Solution {
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        if(image[sr][sc] == color)
+        if(color == image[sr][sc])
             return image;
-        
-        int rightEnd = image[0].length - 1, bottomEnd = image.length - 1;
-        int imageColor = image[sr][sc];
-        Stack<Pair<Integer,Integer>> st = new Stack<>();
-        st.push(new Pair<Integer, Integer>(sr,sc));
+        int rightEnd = image[0].length - 1 , bottomEnd = image.length - 1;
+        int Sourcecolor = image[sr][sc];
+        image[sr][sc] = color;
 
-        while(!st.isEmpty()) {
-            Pair<Integer, Integer> elem = st.pop();
-            sr = elem.getKey(); 
-            sc = elem.getValue();
-            // move right
-            if(sc != rightEnd && image[sr][sc + 1] == imageColor)
-                st.push(new Pair<Integer,Integer>(sr,sc+1));
-            // move left
-            if(sc != 0 && image[sr][sc - 1] == imageColor)
-                st.push(new Pair<Integer,Integer>(sr,sc-1));
-            // move top
-            if(sr != 0 && image[sr - 1][sc] == imageColor)
-                st.push(new Pair<Integer,Integer>(sr-1,sc));
-            // move bottom
-            if(sr != bottomEnd && image[sr + 1][sc] == imageColor)
-                st.push(new Pair<Integer,Integer>(sr+1,sc));
-            
-            image[sr][sc] = color;
-        }
+        if(sr != bottomEnd && image[sr + 1][sc] == Sourcecolor)
+            floodFill(image,sr+1,sc,color);
+        if(sr != 0 && image[sr - 1][sc] == Sourcecolor)
+            floodFill(image,sr - 1,sc,color);
+        if(sc != rightEnd && image[sr][sc + 1] == Sourcecolor)
+            floodFill(image,sr,sc + 1,color);
+        if(sc != 0 && image[sr][sc - 1] == Sourcecolor)
+            floodFill(image,sr,sc - 1,color);
         return image;
     }
 }
+// class Solution {
+//     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+//         if(image[sr][sc] == color)
+//             return image;
+        
+//         int rightEnd = image[0].length - 1, bottomEnd = image.length - 1;
+//         int imageColor = image[sr][sc];
+//         Stack<Pair<Integer,Integer>> st = new Stack<>();
+//         st.push(new Pair<Integer, Integer>(sr,sc));
+
+//         while(!st.isEmpty()) {
+//             Pair<Integer, Integer> elem = st.pop();
+//             sr = elem.getKey(); 
+//             sc = elem.getValue();
+//             // move right
+//             if(sc != rightEnd && image[sr][sc + 1] == imageColor)
+//                 st.push(new Pair<Integer,Integer>(sr,sc+1));
+//             // move left
+//             if(sc != 0 && image[sr][sc - 1] == imageColor)
+//                 st.push(new Pair<Integer,Integer>(sr,sc-1));
+//             // move top
+//             if(sr != 0 && image[sr - 1][sc] == imageColor)
+//                 st.push(new Pair<Integer,Integer>(sr-1,sc));
+//             // move bottom
+//             if(sr != bottomEnd && image[sr + 1][sc] == imageColor)
+//                 st.push(new Pair<Integer,Integer>(sr+1,sc));
+            
+//             image[sr][sc] = color;
+//         }
+//         return image;
+//     }
+// }
 
 // class Solution {
 //     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
