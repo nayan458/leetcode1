@@ -6,7 +6,6 @@ class Solution {
         
         while(l<=r) {
             mid = l + ((r - l)/2);
-            System.out.printf("mid: %d, l: %d, r: %d",mid,l,r);
             if(nums[mid] < min)
                 min = nums[mid];
             if(nums[mid] >= nums[l] && nums[r] < nums[l])
