@@ -13,8 +13,6 @@ class Solution {
         }
 
         for (int i = 0; i < s.length(); i++) {
-            System.out.println(set);
-            System.out.println(st);
             
             if (set.contains(s.charAt(i)) || (!st.empty() && st.peek() == s.charAt(i))) 
                 continue;
