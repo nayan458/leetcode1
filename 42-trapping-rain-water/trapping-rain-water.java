@@ -3,8 +3,7 @@ class Solution {
     public int trap(int[] height) {
         int count = 0;
         int left = 0, right = height.length - 1;
-        int lg = height[left];
-        int rg = height[right];
+        int lg = height[left], rg = height[right];
 
         while (left < right) {
             if (lg <= rg) {
