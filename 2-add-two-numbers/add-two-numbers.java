@@ -1,72 +1,38 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int carry = 0,sum = 0;
-        ListNode ptr1 = l1, ptr2 = l2,prev = null,prev2 = null;
-        while(ptr1 != null && ptr2 != null) {
-            sum = ptr1.val + ptr2.val + carry;
-            if(sum > 9){
-                carry = 1;
-                ptr1.val = sum % 10;
-            } else {
+        int carry = 0;
+        ListNode ptr = l1, pre_ptr = ptr;
+        while(ptr != null && l2 != null) {
+            ptr.val = (ptr.val + l2.val + carry);
+            if(ptr.val > 9) {
+                carry = ptr.val/10;
+                ptr.val %= 10;
+            } else
                 carry = 0;
-                ptr1.val = sum;
-            }
-            prev = ptr1;
-            ptr1 = ptr1.next;
-            prev2 = ptr2;
-            ptr2 = ptr2.next;
+            pre_ptr = ptr;
+            ptr = ptr.next;
+            l2 = l2.next;
         }
         
-        if(ptr1 == null ){
-            if(ptr2 == null){
-                if( carry > 0){
-                    ListNode newNode = new ListNode(carry);
-                    prev.next = newNode;
-                }
-            } else {
-                prev.next = prev2.next;
-                ptr1 = prev.next;
-                while(ptr1 != null && carry > 0) {
-                    sum = ptr1.val + carry;
-                    if( sum > 9){
-                        carry = 1;
-                        ptr1.val = sum % 10;
-                    } else {
-                        carry = 0;
-                        ptr1.val = sum;
-                    }
-                    prev = ptr1;
-                    ptr1 = ptr1.next;
-                }
+        if(l2 != null || ptr != null){
+            pre_ptr.next = l2 != null ? l2 : ptr;
+            ptr = l2 != null? l2 : ptr;
+            while(carry != 0 && ptr != null){
+                ptr.val += carry;
+                carry = ptr.val/10;
+                ptr.val %= 10;
+
+                pre_ptr = ptr;
+                ptr = ptr.next;
             }
-        } else {
-            while(ptr1 != null && carry > 0) {
-                    sum = ptr1.val + carry;
-                    if( sum > 9){
-                        carry = 1;
-                        ptr1.val = sum % 10;
-                    } else {
-                        carry = 0;
-                        ptr1.val = sum;
-                    }
-                    prev = ptr1;
-                    ptr1 = ptr1.next;
-                }
         }
-        if( carry > 0) {
-            ListNode newNode = new ListNode(carry);
-            prev.next = newNode;
-        }
+
+        if(carry != 0)
+            pre_ptr.next = new ListNode(carry);
+
+
+
+
         return l1;
     }
 }
