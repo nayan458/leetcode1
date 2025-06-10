@@ -6,10 +6,9 @@ class Solution {
 
         ListNode ptr1 = head, ptr2 = head.next, temp = head.next.next;
         ptr2.next = ptr1;
-        head = ptr2;
         ptr1.next = swapPairs(temp);
 
 
-        return head;
+        return ptr2;
     }
 }
