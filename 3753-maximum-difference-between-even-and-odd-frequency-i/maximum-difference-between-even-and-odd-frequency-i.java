@@ -23,14 +23,9 @@ class Solution {
                     minOdd = v;
             }
         }
-
-        System.out.printf("maxOdd: %d, minEven: %d\nminOdd: %d, maxEven: %d", maxOdd, minEven, minOdd, maxEven);
-
-        int result = 0;
+        
         maxOdd -= minEven;
         minOdd -= maxEven;
-
-        System.out.printf("maxOdd: %d, minOdd: %d\n", maxOdd, minOdd);
 
         return maxOdd > minOdd ? maxOdd : minOdd;
     }
