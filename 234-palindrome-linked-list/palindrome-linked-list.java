@@ -44,28 +44,6 @@
 // Time Complexity O(n/2) = O(n)
 
 class Solution {
-    public boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) return true;
-        
-        // 1. Find middle
-        ListNode slow = head, fast = head;
-        while (fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-        
-        // 2. Reverse second half
-        ListNode secondHalf = reverse(slow.next);
-        
-        // 3. Compare
-        while (secondHalf != null) {
-            if (head.val != secondHalf.val) return false;
-            head = head.next;
-            secondHalf = secondHalf.next;
-        }
-        
-        return true;
-    }
     
     private ListNode reverse(ListNode head) {
         ListNode prev = null;
@@ -76,5 +54,28 @@ class Solution {
             head = next;
         }
         return prev;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) return true;
+        
+        // Find middle
+        ListNode slow = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        // Reverse second half
+        ListNode secondHalf = reverse(slow.next);
+        
+        // Compare
+        while (secondHalf != null) {
+            if (head.val != secondHalf.val) return false;
+            head = head.next;
+            secondHalf = secondHalf.next;
+        }
+        
+        return true;
     }
 }
