@@ -19,11 +19,11 @@ class Solution {
 
         while(eptr != null && eptr.next != null) {
             
-            optr.next = eptr != null ? eptr.next : null;
-            optr = optr != null ? optr.next : null;
+            optr.next = eptr.next;
+            optr = optr.next;
 
-            eptr.next = optr != null ? optr.next : null;
-            eptr = eptr != null ? eptr.next : null;
+            eptr.next = optr.next;
+            eptr = eptr.next;
         }
 
         optr.next = even;
