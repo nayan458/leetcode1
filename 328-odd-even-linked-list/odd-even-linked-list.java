@@ -28,6 +28,7 @@ class Solution {
 
         optr.next = even;
 
+        System.gc();
         return odd;
 
     }
