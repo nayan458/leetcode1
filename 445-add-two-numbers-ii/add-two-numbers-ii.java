@@ -9,13 +9,6 @@
  * }
  */
 class Solution {
-    private void printll(ListNode head) {
-        while(head != null){
-            System.out.printf("%d\t",head.val);
-            head = head.next;
-        }
-        System.out.println();
-    }
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
         ListNode ptr1 = l1, ptr2 = l2;
@@ -45,23 +38,15 @@ class Solution {
         // reset ptr
         ptr1 = l1;
         ptr2 = l2;
-        printll(l1);
-        printll(l2);
-        // return l2;
+
         // sum carry
         boolean flag = true;
-        int pass = 1;
         while(flag) {
-            System.out.printf("Pass: %d\n", pass);
             flag = false;
-            pass++;
-            printll(l1);
-            printll(l2);
             while(ptr1.next != null) {
                 int sum = ptr1.val + ptr2.val;
                 ptr1.val = sum % 10;
                 ptr2.val = sum / 10;
-                // System.out.printf("ptr1.val: %d, ptr2.val: %d, sum: %d\n",ptr1.val,ptr2.val, sum);
                 ptr1 = ptr1.next;
                 ptr2 = ptr2.next;
                 
@@ -70,7 +55,6 @@ class Solution {
             }
             // cleanup
             int sum = ptr1.val + ptr2.val;
-            // System.out.printf("ptr1.val: %d, ptr2.val: %d, sum: %d\n",ptr1.val,ptr2.val, sum);
             ptr1.val = sum % 10;
             ptr2.val = sum / 10;
             if(sum/10 > 0)
@@ -87,13 +71,11 @@ class Solution {
                 l2 = temp;
             }
             // else head = head.next and add a node at the end
-            else {
+            else
                 l2 = l2.next;
-            }
             ptr1 = l1;
             ptr2 = l2;
         }
-
         return l1;
     }
 }
