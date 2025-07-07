@@ -1,21 +1,19 @@
 class Solution {
-    private TreeNode prev = null;
+
+    private long min = Long.MIN_VALUE;    
 
     public boolean isValidBST(TreeNode root) {
-        return inorder(root);
-    }
+        if(root == null)
+            return true;
 
-    private boolean inorder(TreeNode node) {
-        if (node == null) return true;
+        if( !isValidBST(root.left))
+            return false;
 
-        // Check left subtree
-        if (!inorder(node.left)) return false;
+        if(root.val <= min)
+            return false;
 
-        // Current node must be greater than previous node
-        if (prev != null && node.val <= prev.val) return false;
-        prev = node;
+        min = root.val;
 
-        // Check right subtree
-        return inorder(node.right);
+        return isValidBST(root.right);
     }
 }
