@@ -15,9 +15,9 @@ class Solution {
             if(j<l2)
                 merg[k++]=nums2[j++];
         }
-        System.out.println(in);
-        for(i=0; i<=in; i++)
-            System.out.print(merg[i]);
+        // System.out.println(in);
+        // for(i=0; i<=in; i++)
+        //     System.out.print(merg[i]);
         if((l1+l2)%2==0)
             return (merg[in]+merg[in-1])/2.0;
         else
