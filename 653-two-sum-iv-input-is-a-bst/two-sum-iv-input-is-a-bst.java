@@ -1,48 +1,96 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-
-// Approach I: Solve by converting into an Array
+// Approach II: solve using Tree iterator
 class Solution {
-    private List<Integer> arr = new ArrayList<>();
 
     public boolean findTarget(TreeNode root, int k) {
-        if(root == null && root.right == root.left)
-            return false;
+        BSTI obj1 = new BSTI(root, true);
+        BSTI obj2 = new BSTI(root, false);
 
-        inorder(root);
+        TreeNode left = obj1.next();
+        TreeNode right = obj2.next();
 
-        int right = arr.size() - 1, left = 0;
-        while(left < right){
-            int target = (arr.get(left) + arr.get(right));
+        while(left != null && right != null && left != right){
+            int target = left.val + right.val;
             if( target == k)
                 return true;
             if( target > k)
-                right--;
+                right = obj2.next();
             else
-                left++;
+                left = obj1.next();
         }
 
         return false;
     }
+}
 
-    private void inorder(TreeNode root){
-        if(root == null)
-            return;
-        inorder(root.left);
-        arr.add(root.val);
-        inorder(root.right);
+class BSTI{
+    private Stack<TreeNode> st = new Stack<>();
+    private boolean asc;
+    public BSTI(TreeNode root, boolean asc){
+        this.asc = asc;
+        if(asc)
+            asc(root);
+        else
+            desc(root);
+    }
+
+    public TreeNode next(){
+        if(hasNext()){
+            TreeNode node = st.pop();
+            if(asc)
+                asc(node.right);
+            else
+                desc(node.left);
+            return node;
+        }
+        return null;
+    }
+
+    public boolean hasNext(){
+        return !st.isEmpty();
+    }
+
+    public void asc(TreeNode root){
+        if(root == null)    return;
+        st.push(root);
+        asc(root.left);
+    }
+
+    public void desc(TreeNode root){
+        if(root == null)    return;
+        st.push(root);
+        desc(root.right);
     }
 }
+
+// Approach I: Solve by converting into an Array
+// class Solution {
+//     private List<Integer> arr = new ArrayList<>();
+
+//     public boolean findTarget(TreeNode root, int k) {
+//         if(root == null && root.right == root.left)
+//             return false;
+
+//         inorder(root);
+
+//         int right = arr.size() - 1, left = 0;
+//         while(left < right){
+//             int target = (arr.get(left) + arr.get(right));
+//             if( target == k)
+//                 return true;
+//             if( target > k)
+//                 right--;
+//             else
+//                 left++;
+//         }
+
+//         return false;
+//     }
+
+//     private void inorder(TreeNode root){
+//         if(root == null)
+//             return;
+//         inorder(root.left);
+//         arr.add(root.val);
+//         inorder(root.right);
+//     }
+// }
