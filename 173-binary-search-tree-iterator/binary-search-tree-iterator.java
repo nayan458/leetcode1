@@ -22,7 +22,9 @@ class BSTIterator {
     }
     
     public int next() {
-        return q.poll().val;
+        if(hasNext())
+            return q.poll().val;
+        return -1;
     }
     
     public boolean hasNext() {
