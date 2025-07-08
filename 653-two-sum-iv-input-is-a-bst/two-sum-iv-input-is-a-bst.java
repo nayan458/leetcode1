@@ -50,15 +50,23 @@ class BSTI{
     }
 
     public void asc(TreeNode root){
-        if(root == null)    return;
-        st.push(root);
-        asc(root.left);
+        while(root != null){
+            st.push(root);
+            root = root.left;
+        }
+        // if(root == null)    return;
+        // st.push(root);
+        // asc(root.left);
     }
 
     public void desc(TreeNode root){
-        if(root == null)    return;
-        st.push(root);
-        desc(root.right);
+        while(root != null){
+            st.push(root);
+            root = root.right;
+        }
+        // if(root == null)    return;
+        // st.push(root);
+        // desc(root.right);
     }
 }
 
