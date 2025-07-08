@@ -4,10 +4,18 @@ class Solution {
         int []bucket = new int[20001];
         int sum = 0;
         boolean take = true;
+        int min = nums[0], max = nums[0];
         
-        Arrays.stream(nums).forEach(num -> bucket[num + 10000]++);
+        for(int elem : nums){
+            bucket[elem + 10000]++;
+            min = Math.min(min, elem);
+            max = Math.max(max, elem);
+        }
 
-        for( int i = 0; i < bucket.length; i++){
+        min += 10000;
+        max += 10000;
+
+        for( int i = min; i <= max; i++){
             while(bucket[i] > 0){
                 if(take)
                     sum += i - 10000;
