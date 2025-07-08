@@ -14,10 +14,9 @@
  * }
  */
 class BSTIterator {
-    Queue<TreeNode> q;
+    Queue<TreeNode> q = new LinkedList<>();
 
     public BSTIterator(TreeNode root) {
-        q = new LinkedList<>();
         inorder(root);
     }
     
