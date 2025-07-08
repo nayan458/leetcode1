@@ -26,11 +26,7 @@ class Solution {
 
     public void recoverTree(TreeNode root) {
         findNodes(root);
-        if(left != null)
-            System.out.printf("left: %d\n",left.val);
-        if(right != null)
-            System.out.printf("right: %d\n",right.val);
-
+        
         min = new TreeNode(left.val);
         left.val = right.val;
         right.val = min.val;
