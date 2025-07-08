@@ -1,10 +1,12 @@
 class Solution {
+    private int []bucket = new int[20001];
+    private int sum = 0;
+    private boolean take = true;
+    private int min, max;
+
     public int arrayPairSum(int[] nums) {
-        int []bucket = new int[20001];
-        int sum = 0;
-        boolean take = true;
-        int min = nums[0], max = nums[0];
-        
+        min = nums[0];
+        max = nums[0];
         for(int elem : nums){
             bucket[elem + 10000]++;
             min = Math.min(min, elem);
