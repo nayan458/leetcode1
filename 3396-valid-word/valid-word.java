@@ -14,15 +14,15 @@ class Solution {
                 continue;
             if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')){
                 if(vowels.contains(ch)){
-                    hasVowel = true;
+                    this.hasVowel = true;
                     continue;
                 }
-                hasConsonant = true;
+                this.hasConsonant = true;
                 continue;
             }
             return false;
         }
 
-        return hasConsonant && hasVowel;
+        return this.hasConsonant && this.hasVowel;
     }
 }
