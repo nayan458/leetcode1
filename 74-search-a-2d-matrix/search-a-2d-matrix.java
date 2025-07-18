@@ -12,20 +12,20 @@ class Solution {
         return false;
     }
 
+    // private boolean binarySearchIndex(int[] arr)
+
     private boolean binarySearch(int[] arr, int target){
         int left = 0, right = arr.length - 1;
         int mid = left + ((right - left)/2);
-        while(left < right){
+        while(left <= right){
+            mid = left + ((right - left)/2);
             if(arr[mid] == target)
                 return true;
             if(arr[mid] < target)
                 left = mid + 1;
             else 
                 right = mid - 1;
-            mid = left + ((right - left)/2);
         }
-        if(arr[mid] == target)
-            return true;
         return false;
     }
 }
