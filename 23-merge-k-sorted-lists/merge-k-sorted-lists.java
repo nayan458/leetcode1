@@ -29,10 +29,9 @@ class Solution {
             ptr.next = heap.poll();
             ptr = ptr.next;
         }
+
         if(ptr != null)
             ptr.next = null;
-        else
-            ptr = null;
 
         return head;
     }
