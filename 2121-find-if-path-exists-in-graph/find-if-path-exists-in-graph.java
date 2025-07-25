@@ -4,7 +4,7 @@ class Solution {
         if(source == destination)   return true;
 
         List<List<Integer>> adjList = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
+        boolean[] visited = new boolean[n];
         Stack<Integer> st = new Stack<>();
 
         for(int i = 0; i < n; i++)
@@ -16,15 +16,15 @@ class Solution {
         }
 
         st.push(source);
-        visited.add(source);
+        visited[source] = true;
 
         while(!st.isEmpty()){
             int elem = st.pop();
             for(Integer el: adjList.get(elem)){
-                if(visited.contains(el)) continue;
+                if(visited[el]) continue;
                 if(el == destination) return true;
                 st.push(el);
-                visited.add(el);
+                visited[el] = true;
             }
         }
         return false;
