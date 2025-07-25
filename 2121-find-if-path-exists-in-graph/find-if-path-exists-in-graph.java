@@ -7,13 +7,7 @@ class Solution {
         Set<Integer> visited = new HashSet<>();
         Stack<Integer> st = new Stack<>();
 
-        int max = 0;
-
-        for(int[] row: edges)
-            for(int elem: row)
-                max = Math.max(max, elem);
-
-        for(int i = 0; i <= max; i++)
+        for(int i = 0; i < n; i++)
             adjList.add(new ArrayList<>());
         
         for(int[] edge: edges){
