@@ -1,35 +1,70 @@
-
 class Solution {
+    int[] parent;
+
     public boolean validPath(int n, int[][] edges, int source, int destination) {
-        if(source == destination)   return true;
-
-        List<List<Integer>> adjList = new ArrayList<>();
-        boolean[] visited = new boolean[n];
-        Stack<Integer> st = new Stack<>();
-
-        for(int i = 0; i < n; i++)
-            adjList.add(new ArrayList<>());
+        parent = new int[n];
         
-        for(int[] edge: edges){
-            adjList.get(edge[0]).add(edge[1]);
-            adjList.get(edge[1]).add(edge[0]);
+        // Initialize each node to itself
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
         }
 
-        st.push(source);
-        visited[source] = true;
-
-        while(!st.isEmpty()){
-            int elem = st.pop();
-            for(Integer el: adjList.get(elem)){
-                if(visited[el]) continue;
-                if(el == destination) return true;
-                st.push(el);
-                visited[el] = true;
-            }
+        // Union all edges
+        for (int[] edge : edges) {
+            union(edge[0], edge[1]);
         }
-        return false;
+
+        // Check if source and destination are connected
+        return find(source) == find(destination);
+    }
+
+    // Find with path compression
+    private int find(int x) {
+        if (parent[x] != x)
+            parent[x] = find(parent[x]);
+        return parent[x];
+    }
+
+    // Union by root
+    private void union(int x, int y) {
+        int px = find(x);
+        int py = find(y);
+        if (px != py)
+            parent[px] = py;
     }
 }
+
+// class Solution {
+//     public boolean validPath(int n, int[][] edges, int source, int destination) {
+//         if(source == destination)   return true;
+
+//         List<List<Integer>> adjList = new ArrayList<>();
+//         boolean[] visited = new boolean[n];
+//         Stack<Integer> st = new Stack<>();
+
+//         for(int i = 0; i < n; i++)
+//             adjList.add(new ArrayList<>());
+        
+//         for(int[] edge: edges){
+//             adjList.get(edge[0]).add(edge[1]);
+//             adjList.get(edge[1]).add(edge[0]);
+//         }
+
+//         st.push(source);
+//         visited[source] = true;
+
+//         while(!st.isEmpty()){
+//             int elem = st.pop();
+//             for(Integer el: adjList.get(elem)){
+//                 if(visited[el]) continue;
+//                 if(el == destination) return true;
+//                 st.push(el);
+//                 visited[el] = true;
+//             }
+//         }
+//         return false;
+//     }
+// }
 // class Solution {
 //     public boolean validPath(int n, int[][] edges, int source, int destination) {
 //         if (source == destination) {
