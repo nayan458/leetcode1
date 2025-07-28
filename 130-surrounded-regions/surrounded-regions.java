@@ -1,9 +1,9 @@
 class Solution {
-    boolean[] visited = new boolean[40_000];
+    boolean[] visited;
     public void solve(char[][] board) {
         int m = board.length, n = board[0].length;
+        visited = new boolean[m * n];
         if(m < 2 || n < 2) return;
-        // visited = new boolean[m * n];
         for(int i = 0; i < n; i++){
             if(board[0][i] == 'O' && !visited[i]) dfs(board, 0, i, m, n);
             if(board[m - 1][i] == 'O' && !visited[((m - 1) * n) + i]) dfs(board, m - 1, i, m, n);
