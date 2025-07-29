@@ -8,7 +8,7 @@ class Solution {
             (a,b) -> Integer.compare(a[0],b[0])
         );
 
-        Set<Integer> visited = new HashSet<>(); // visited array of [row, col]
+        boolean[] visited = new boolean[m*n]; // visited array of [row, col]
         heap.add(new int[]{0, 0, 0});
 
         while(!heap.isEmpty()){
@@ -19,8 +19,8 @@ class Solution {
             int index = (row * n) + col;
 
             if(index == ((m - 1) * n + (n - 1))) return diff;
-            if(visited.contains(index)) continue;
-            visited.add(index);
+            if(visited[index]) continue;
+            visited[index] = true;
             
             int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
             for (int[] dir : directions) {
@@ -28,7 +28,7 @@ class Solution {
                 int dc = dir[1];
                 int newRow = row + dr, newCol = col + dc;
                 index = (newRow * n) + newCol;
-                if(newRow < 0 || newRow >= m || newCol < 0 || newCol >= n || visited.contains(index))
+                if(newRow < 0 || newRow >= m || newCol < 0 || newCol >= n || visited[index])
                     continue;
 
                 int newDiff = Math.max(diff,Math.abs(heights[row][col] - heights[newRow][newCol]));
