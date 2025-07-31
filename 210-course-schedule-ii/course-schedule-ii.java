@@ -1,41 +1,42 @@
 class Solution {
-    Set<Integer> courseScheduled = new LinkedHashSet<>();
-    int[] courseSchedule;
-    int index = 0;
-    private Set<Integer> waiting = new HashSet<>();
+    private Set<Integer> courseScheduled = new HashSet<>();
+    private int[] courseSchedule;
+    private int index = 0;
+    private boolean[] waiting;
+    private boolean[] visited;
+    private List<List<Integer>> adjList;
 
     public int[] findOrder(int n, int[][] edges) {
-        List<List<Integer>> adjList = createGraph(edges, n);
-
-        boolean[] visited = new boolean[n];
+        adjList = createGraph(edges, n);
+        if(courseScheduled.size() == n) return new int[0];
+        courseScheduled = new HashSet<>();
+        visited = new boolean[n];
+        waiting = new boolean[n];
         index = n -  1;
         courseSchedule = new int[n];
 
         for (int i = 0; i < n; i++) {
-            if (!visited[i])
-                if (dfs(i, adjList, visited))
+            if (!visited[i] )
+                if (dfs(i))
                     return new int[0];
         }
 
         return courseSchedule;
-        // List<Integer> result = new ArrayList<>(courseSchedule);
-        // Collections.reverse(result);
-        // return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    private boolean dfs(int node, List<List<Integer>> adjList, boolean[] visited) {
+    private boolean dfs(int node) {
         visited[node] = true;
-        if (waiting.contains(node)) return true;
+        if (waiting[node]) return true;
 
-        waiting.add(node);
+        waiting[node] = true;
         for(int neighbour: adjList.get(node)){
             if(!courseScheduled.contains(neighbour)){
-                if(dfs(neighbour, adjList, visited))
+                if(dfs(neighbour))
                     return true;
             } 
         }
 
-        waiting.remove(node);
+        waiting[node] = false;
         courseSchedule[index--] = node;
         courseScheduled.add(node);
         return false;
@@ -47,8 +48,10 @@ class Solution {
         for (int i = 0; i < n; i++) 
             adjList.add(new ArrayList<>());
 
-        for (int[] edge : edges)
+        for (int[] edge : edges){
             adjList.get(edge[1]).add(edge[0]);
+            courseScheduled.add(edge[1]);
+        }
 
         return adjList;
     }
