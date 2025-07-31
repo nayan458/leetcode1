@@ -25,16 +25,11 @@ class Solution {
         if (waiting.contains(node)) return true;
 
         waiting.add(node);
-        Iterator<Integer> iterator = hm.get(node).iterator();
-        while (iterator.hasNext()) {
-            int elem = iterator.next();
-            if (!courseSchedule.contains(elem)) {
-                if (dfs(elem, adjList, visited))
+        for(int neighbour: adjList.get(node)){
+            if(!courseSchedule.contains(neighbour)){
+                if(dfs(neighbour, adjList, visited))
                     return true;
-                iterator.remove(); // safely remove from set
-            } else {
-                iterator.remove(); // safely remove if already in courseSchedule
-            }
+            } 
         }
 
         waiting.remove(node);
@@ -45,15 +40,11 @@ class Solution {
     private List<List<Integer>> createGraph(int[][] edges, int n) {
         List<List<Integer>> adjList = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) 
             adjList.add(new ArrayList<>());
-            hm.put(i, new HashSet<>());
-        }
 
-        for (int[] edge : edges) {
-            adjList.get(edge[0]).add(edge[1]);
-            hm.get(edge[1]).add(edge[0]);
-        }
+        for (int[] edge : edges)
+            adjList.get(edge[1]).add(edge[0]);
 
         return adjList;
     }
