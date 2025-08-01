@@ -1,35 +1,37 @@
 class Solution {
+
     int[] parent;
 
-    public int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]); // Path compression
-        return parent[x];
-    }
-
-    public boolean union(int u, int v) {
-        int pu = find(u);
-        int pv = find(v);
-        if (pu == pv)
-            return false; // u and v are already connected → cycle
-        parent[pu] = pv;
-        return true;
+    public int findP(int node){
+        if(parent[node] == node)
+            return node;
+        return parent[node] = findP(parent[node]);
     }
 
     public int[] findRedundantConnection(int[][] edges) {
-        int n = edges.length;
-        parent = new int[n + 1];
-
-        // Initialize each node as its own parent
-        for (int i = 1; i <= n; i++)
+        int n = findN(edges);
+        parent = new int[n];
+        for(int i = 0; i < n; i++)
             parent[i] = i;
+        
+        for(int[] edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+            int p_u = findP(parent[u]);
+            int p_v = findP(parent[v]);
 
-        for (int[] edge : edges) {
-            if (!union(edge[0], edge[1])) {
-                return edge; // Found the cycle
-            }
+            if(p_u == p_v)
+                return edge;
+            parent[p_u] = p_v;
         }
+        return new int[] {0,0};
+    }
 
-        return new int[0]; // Should not reach here
+
+    private int findN(int[][] edges){
+        int n = 0;
+        for(int[] edge: edges)
+            n = Math.max(Math.max(edge[0],edge[1]),n);
+        return n + 1;
     }
 }
