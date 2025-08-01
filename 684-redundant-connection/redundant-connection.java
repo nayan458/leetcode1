@@ -5,7 +5,7 @@ class Solution {
     public int findP(int node){
         if(parent[node] == node)
             return node;
-        return parent[node] = findP(parent[node]);
+        return findP(parent[node]);
     }
 
     public int[] findRedundantConnection(int[][] edges) {
