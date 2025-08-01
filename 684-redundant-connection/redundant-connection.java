@@ -9,7 +9,7 @@ class Solution {
     }
 
     public int[] findRedundantConnection(int[][] edges) {
-        int n = findN(edges);
+        int n = edges.length + 1;
         parent = new int[n];
         for(int i = 0; i < n; i++)
             parent[i] = i;
@@ -25,13 +25,5 @@ class Solution {
             parent[p_u] = p_v;
         }
         return new int[] {0,0};
-    }
-
-
-    private int findN(int[][] edges){
-        int n = 0;
-        for(int[] edge: edges)
-            n = Math.max(Math.max(edge[0],edge[1]),n);
-        return n + 1;
     }
 }
