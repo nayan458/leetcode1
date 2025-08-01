@@ -1,20 +1,17 @@
 class Solution {
-    int[] outdegree = new int[1_001];
-    int[] indegree = new int[1_001];
-
     public int findJudge(int n, int[][] trust) {
-        if(n == 1) return 1;
-        int node = -1;
+        int[] score = new int[n + 1];
 
-        for(int[] relationship: trust){
-            if(node == relationship[0])
-                return -1;
-            outdegree[relationship[0]]++;
-            indegree[relationship[1]]++;
-            if(outdegree[relationship[1]] == 0 && indegree[relationship[1]] == n-1)
-                node = relationship[1];
+        for (int[] t : trust) {
+            score[t[0]]--; // trusts someone → disqualified
+            score[t[1]]++; // gets trusted → closer to judge
         }
 
-        return node;
+        for (int i = 1; i <= n; i++) {
+            if (score[i] == n - 1) return i;
+        }
+
+        return -1;
     }
+
 }
