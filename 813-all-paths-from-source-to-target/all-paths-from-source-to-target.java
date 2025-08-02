@@ -8,18 +8,14 @@ class Solution {
     }
 
     private void path(int node, int[][] graph,List<Integer> arr){
-        if(node == n - 1){
-            arr.add(node);
-            ans.add(new ArrayList<>(arr));
-            arr.remove(arr.size() - 1);
-            return;
-        }
-
         arr.add(node);
+
+        if(node == n - 1)
+            ans.add(new ArrayList<>(arr));
 
         for(int elem: graph[node])
             path(elem, graph, arr);
-        System.out.println(node + ": " + arr);
+            
         arr.remove(arr.size() - 1);
         return;
     }
