@@ -6,6 +6,7 @@ class Solution {
         );
 
         int[] parent = new int[n];
+        int[] rank = new int[n];
 
         for(int i = 0; i < n; i++){
             parent[i] = i;
@@ -22,7 +23,14 @@ class Solution {
             int p_u = find(u, parent), p_v = find(v, parent);
             
             if(p_u == p_v) continue;
-            parent[p_u] = p_v;
+            if (rank[p_u] < rank[p_v]) {
+                parent[p_u] = p_v;
+            } else if (rank[p_u] > rank[p_v]) {
+                parent[p_v] = p_u;
+            } else {
+                parent[p_v] = p_u;
+                rank[p_u]++;
+            }
             n -= 1;
             min += elem[0];
         }
