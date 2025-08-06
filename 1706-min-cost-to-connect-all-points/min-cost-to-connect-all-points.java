@@ -18,11 +18,9 @@ class Solution {
         int min = 0;
         while(n > 1){
             int[] elem = distance.poll();
-            int u = elem[1], v = elem[2], p_u = parent[u], p_v = parent[v];
-            while(parent[p_v] != p_v)
-                p_v = parent[p_v];
-            while(parent[p_u] != p_u)
-                p_u = parent[p_u];
+            int u = elem[1], v = elem[2];
+            int p_u = find(u, parent), p_v = find(v, parent);
+            
             if(p_u == p_v) continue;
             parent[p_u] = p_v;
             n -= 1;
@@ -31,5 +29,10 @@ class Solution {
 
         return min;
 
+    }
+    private int find(int x, int[] parent){
+        if(parent[x] == x)
+            return x;
+        return parent[x] = find(parent[x], parent);
     }
 }
