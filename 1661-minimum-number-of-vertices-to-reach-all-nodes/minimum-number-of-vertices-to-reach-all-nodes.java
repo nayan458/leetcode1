@@ -1,9 +1,11 @@
+// Approach II: Micro Optimization
 class Solution {
     public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
         boolean[] hasIncomming = new boolean[n];
 
         for(List<Integer> edge: edges)
             hasIncomming[edge.get(1)] = true;
+
         List<Integer> ans = new ArrayList<>();
         for(int i = 0; i < n; i++)
             if(!hasIncomming[i])
