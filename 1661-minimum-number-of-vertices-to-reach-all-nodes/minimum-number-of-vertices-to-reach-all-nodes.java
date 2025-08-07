@@ -6,10 +6,11 @@ class Solution {
         for(List<Integer> edge: edges)
             indegree[edge.get(1)] += 1;
         
+        List<Integer> ans = new ArrayList<>();
         for(int i = 0; i < n; i++)
             if(indegree[i] == 0)
-                set.add(i);
+                ans.add(i);
         
-        return new ArrayList<>(set);
+        return ans;
     }
 }
