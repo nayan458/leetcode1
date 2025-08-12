@@ -53,11 +53,10 @@ class Solution {
         int startRow = (row / 3) * 3;
         int startCol = (col / 3) * 3;
 
-        // Check inside the 3x3 subgrid
         for (int r = startRow; r < startRow + 3; r++) {
             for (int c = startCol; c < startCol + 3; c++) {
                 if (board[r][c] == num) {
-                    return true; // Found the number
+                    return true; 
                 }
             }
         }
