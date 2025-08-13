@@ -12,6 +12,7 @@ class Solution {
         return false;
     }
 }
+
 // class Solution {
     
 //     public boolean isPowerOfThree(int n) {
