@@ -8,6 +8,7 @@ class Solution {
         }
         return n == 1;
     }
+    
 }
 
 // class Solution {
