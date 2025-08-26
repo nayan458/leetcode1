@@ -13,7 +13,6 @@ class Solution {
             if (dia == max_dia){
                 max_area = Math.max(area, max_area);
             }
-            System.out.println(dia + " " + area + "Current status: " + max_dia + " " + max_area);
         }
         return max_area;
     }
