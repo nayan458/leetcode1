@@ -10,7 +10,7 @@ class Solution {
                 max_dia = dia;
                 max_area = area;
             }
-            if (dia == max_dia){
+            else if (dia == max_dia){
                 max_area = Math.max(area, max_area);
             }
         }
