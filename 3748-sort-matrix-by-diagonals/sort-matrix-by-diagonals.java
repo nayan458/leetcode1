@@ -1,7 +1,7 @@
 class Solution {
 
     public int[][] sortMatrix(int[][] grid) {
-        List<Integer> ls;
+        PriorityQueue<Integer> ls;
         int m = grid.length;
         int n = grid[0].length;
 
@@ -10,20 +10,15 @@ class Solution {
             int row = 0;
             int col = i;
 
-            ls = new ArrayList<>();
+            ls = new PriorityQueue<>(
+                (a,b) -> b - a
+            );
 
-            while(row >= 0 && row < m && col >= 0 && col < n){
-                // System.out.println(row + " " + col);
-                ls.add(grid[row][col]);
-                row += 1;
-                col += 1;
-            }
-            Collections.sort(ls);
+            while(row >= 0 && row < m && col >= 0 && col < n)
+                ls.add(grid[row++][col++]);
 
-            // row,col
-            row = 0; col = i;
-            for(Integer elem: ls)
-                grid[row++][col++] = elem;
+            while(!ls.isEmpty())
+                grid[--row][--col] = ls.poll();
         }
 
         // System.out.println("bottom");
@@ -31,18 +26,15 @@ class Solution {
             int row = i;
             int col = 0;
 
-            ls = new ArrayList<>();
+            ls = new PriorityQueue<>(
+                (a,b) -> a -b
+            );
 
-            while(row < m && col < n){
-                // System.out.println(row + " " + col);
-                ls.add(grid[row][col]);
-                row += 1;
-                col += 1;
-            }
-            Collections.sort(ls);
+            while(row < m && col < n)
+                ls.add(grid[row++][col++]);
 
-            for(Integer elem: ls)
-                grid[--row][--col] = elem;
+            while(!ls.isEmpty())
+                grid[--row][--col] = ls.poll();
         }
         return grid;
     }
