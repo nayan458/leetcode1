@@ -32,7 +32,8 @@ class Solution {
         }else{
             exclude = dp(nums, sum, n - 1);
         }
-
-        return include || exclude;
+        boolean response = include || exclude;
+        t[n][sum] = response ? 1 : -1;
+        return response;
     }
 }
