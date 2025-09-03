@@ -15,6 +15,8 @@ class Solution {
                 if(by > ay || by <= maxy) continue;
                 count++;
                 maxy = by;
+                if(ay == maxy)
+                    break;
             }
         }
         return count;
