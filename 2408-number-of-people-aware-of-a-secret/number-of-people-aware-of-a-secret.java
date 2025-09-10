@@ -4,14 +4,22 @@ class Solution {
 
     public int peopleAwareOfSecret(int n, int delay, int forget) {
         t = new long[n + 1];
+        int x = forget - delay;
+        int valid = n - forget + 1;
+
+        // initialization
         t[1] = 1;
-        for(int i = 1; i <= n; i++){
-            for(int j = i + delay; j < i+forget && j <= n; j++)
-                t[j] = (t[j] + t[i]) % MOD;
+
+        for(int day = 1; day <= n; day++){
+            for(int i = 0; i < x; i++){
+                int new_day = day+delay+i;
+                if(new_day > n) break;
+                t[new_day] = (t[new_day] + t[day]) % MOD;
+            }
         }
 
         long ans = 0;
-        for(int i = n - forget + 1; i <= n; i++){
+        for(int i = valid; i <= n; i++){
             ans = (ans + t[i]) % MOD;
         }
         
