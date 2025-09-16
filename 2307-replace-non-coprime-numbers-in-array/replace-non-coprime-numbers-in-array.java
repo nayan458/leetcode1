@@ -1,31 +1,23 @@
 class Solution {
     public List<Integer> replaceNonCoprimes(int[] nums) {
-        Stack<Integer> st = new Stack<>();
-        List<Integer> ans = new ArrayList<>();
+        // Stack<Integer> st = new Stack<>();
+        Deque<Integer> dq = new ArrayDeque<>();
+        // List<Integer> ans = new ArrayList<>();
+
         for(int elem: nums){
-            // check stack
-            if(st.isEmpty()){
-                st.add(elem);
-                continue;
-            }
             int curr = elem;
-            while(!st.isEmpty()){
-                int peek_item = st.peek();
+            while(!dq.isEmpty()){
+                int peek_item = dq.peekLast();
                 int gcd = GCD(peek_item, curr);
                 if(gcd == 1)
                     break;
-                st.pop();
+                dq.pollLast();
                 curr = LCM(peek_item, curr, gcd);
             }
-            st.add(curr);
+            dq.addLast(curr);
         }
 
-        while(!st.isEmpty())
-            ans.add(st.pop());
-
-        Collections.reverse(ans);
-
-        return ans;
+        return new ArrayList<>(dq);
     }
 
     private int GCD(int a, int b) {
