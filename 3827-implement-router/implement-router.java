@@ -11,6 +11,7 @@
     Queue<Packet> queue = new LinkedList<>();
     Set<Packet> st = new HashSet<>();
     Map<Integer, List<Integer>> hm = new HashMap<>();
+    Map<Integer, Integer> startIndexPerDestination = new HashMap<>();
     int size;
 
     public Router(int memoryLimit) {
@@ -25,12 +26,17 @@
         queue.add(packet);
         st.add(packet);
         hm.computeIfAbsent(destination, k -> new ArrayList<>()).add(timestamp);  // computeIfAbsent
+        startIndexPerDestination.putIfAbsent(destination, 0);
 
         if(queue.size() > size){
-            //
             Packet removePacket = queue.poll();
             st.remove(removePacket);
-            hm.get(removePacket.destination).remove(0); // remove begening
+            // hm.get(removePacket.destination).remove(0); // remove begening
+            startIndexPerDestination
+                .put(
+                    removePacket.destination, 
+                    startIndexPerDestination.get(removePacket.destination) + 1
+                );
         }
         return true;
     }
@@ -39,7 +45,12 @@
         if(queue.size() == 0) return new int[0];
         Packet packet = queue.poll();
         st.remove(packet);
-        hm.get(packet.destination).remove(0); // remove beegining
+        // hm.get(packet.destination).remove(0); // remove beegining
+        startIndexPerDestination
+                .put(
+                    packet.destination, 
+                    startIndexPerDestination.get(packet.destination) + 1
+                );
         return packet.deserializeint();
     }
     
@@ -47,14 +58,17 @@
         List<Integer> time = hm.get(destination);
         if (time == null || time.isEmpty()) return 0;
 
-        int x = lowerBound(time, startTime);
-        int y = upperBound(time, endTime);
+        int index = startIndexPerDestination.get(destination);
+        if(index == time.size()) return 0;
+
+        int x = lowerBound(time, startTime, index);
+        int y = upperBound(time, endTime, index);
 
         return y - x;
     }
 
-    private int lowerBound(List<Integer> list, int target) {
-        int left = 0, right = list.size();
+    private int lowerBound(List<Integer> list, int target, int index) {
+        int left = index, right = list.size();
         while (left < right) {
             int mid = left + (right - left) / 2;
             if (list.get(mid) < target) {
@@ -66,8 +80,8 @@
         return left;
     }
 
-    private int upperBound(List<Integer> list, int target) {
-        int left = 0, right = list.size();
+    private int upperBound(List<Integer> list, int target, int index) {
+        int left = index, right = list.size();
         while (left < right) {
             int mid = left + (right - left) / 2;
             if (list.get(mid) <= target) {
