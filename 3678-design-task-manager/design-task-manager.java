@@ -1,81 +1,79 @@
 class TaskManager {
-    
-    // Task class to store task information
-    static class Task {
-        int userId;
-        int taskId;
-        int priority;
-        
-        Task(int userId, int taskId, int priority) {
-            this.userId = userId;
-            this.taskId = taskId;
-            this.priority = priority;
-        }
-    }
-    
-    // Map to store taskId -> Task for O(1) access
-    private Map<Integer, Task> taskMap;
-    
-    // TreeSet to maintain tasks sorted by priority (desc) and taskId (desc) for ties
-    private TreeSet<Task> prioritySet;
-    
+
+    private PriorityQueue<Task> q;
+    private Map<Integer, Task> hm;
+
+    private Comparator<Task> cmp = (a,b) -> {
+        if(a.priority != b.priority)
+            return Integer.compare(b.priority,a.priority);
+        if(a.taskId != b.taskId)
+            return Integer.compare(b.taskId,a.taskId);
+        return Long.compare(b.order,a.order);
+    };
+
     public TaskManager(List<List<Integer>> tasks) {
-        taskMap = new HashMap<>();
-        
-        // Custom comparator: higher priority first, then higher taskId for ties
-        prioritySet = new TreeSet<>((a, b) -> {
-            if (a.priority != b.priority) {
-                return Integer.compare(b.priority, a.priority); // Higher priority first
-            }
-            return Integer.compare(b.taskId, a.taskId); // Higher taskId first for ties
-        });
-        
-        // Initialize with given tasks
-        for (List<Integer> task : tasks) {
-            int userId = task.get(0);
-            int taskId = task.get(1);
-            int priority = task.get(2);
-            add(userId, taskId, priority);
-        }
+        this.q = new PriorityQueue<>(cmp);
+        this.hm = new HashMap<>();
+
+        for(List<Integer> elem: tasks)
+            add(elem.get(0), elem.get(1), elem.get(2));
     }
     
     public void add(int userId, int taskId, int priority) {
         Task task = new Task(userId, taskId, priority);
-        taskMap.put(taskId, task);
-        prioritySet.add(task);
+        q.add(task);
+        hm.put(taskId, task);
     }
     
     public void edit(int taskId, int newPriority) {
-        Task oldTask = taskMap.get(taskId);
-        
-        // Remove old task from priority set
-        prioritySet.remove(oldTask);
-        
-        // Update priority
-        oldTask.priority = newPriority;
-        
-        // Add back to priority set with new priority
-        prioritySet.add(oldTask);
+        Task task = hm.remove(taskId);
+        Task updatedTask = new Task(task.userId, taskId, newPriority);
+        q.add(updatedTask);
+        hm.put(taskId, updatedTask);
     }
     
     public void rmv(int taskId) {
-        Task task = taskMap.get(taskId);
-        taskMap.remove(taskId);
-        prioritySet.remove(task);
+        hm.remove(taskId);
     }
     
     public int execTop() {
-        if (prioritySet.isEmpty()) {
-            return -1;
+        while(!q.isEmpty()){
+            Task task = q.poll();
+            Task taskInHm = hm.get(task.taskId);
+            if(taskInHm == null || task.priority != taskInHm.priority) continue;
+            hm.remove(task.taskId);
+            return task.userId;
         }
-        
-        // Get the highest priority task (first in TreeSet due to our comparator)
-        Task topTask = prioritySet.first();
-        
-        // Remove from both data structures
-        prioritySet.remove(topTask);
-        taskMap.remove(topTask.taskId);
-        
-        return topTask.userId;
+        return -1;
     }
+}
+
+class Task {
+    int userId; int taskId; int priority;
+    long order;
+    static long count = 0;
+    
+
+    public Task(int userId, int taskId, int priority){
+        this.userId = userId; 
+        this.taskId = taskId; 
+        this.priority = priority;
+        this.order = count++;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task other = (Task) o;
+        return userId == other.userId &&
+            taskId == other.taskId &&
+            priority == other.priority;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, taskId, priority);
+    }
+
 }
