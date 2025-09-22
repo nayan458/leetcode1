@@ -47,9 +47,6 @@
         List<Integer> time = hm.get(destination);
         if (time == null || time.isEmpty()) return 0;
 
-        // Ensure timestamps are sorted before binary search
-        // Collections.sort(time);
-
         int x = lowerBound(time, startTime);
         int y = upperBound(time, endTime);
 
