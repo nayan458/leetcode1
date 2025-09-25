@@ -16,9 +16,6 @@ class Solution {
         for(int i = 0; i < m; i++)
             t[i+size-m] = triangle.get(n - 1).get(i);
 
-        for(int i : t)
-            System.out.print(i + " ");
-
         for(int i = n-2; i >= 0; i--){
             int start = (i * (1 + i))/2;
             int match = start + i + 1;
