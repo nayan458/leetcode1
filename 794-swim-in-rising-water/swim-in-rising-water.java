@@ -2,7 +2,7 @@ class Solution {
     boolean[][] visited;
     public int swimInWater(int[][] grid) {
         int n = grid.length;
-        int l = 0; int r = 5000;
+        int l = 0; int r = n * n - 1;
         int min = n * n - 1;
 
         while(l <= r) {
