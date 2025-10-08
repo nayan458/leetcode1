@@ -14,7 +14,7 @@ class Solution {
         int num = potions.length;
         while(l <= r){
             int mid = l + ((r - l) / 2);
-            long product = (long)((long)spell * (long)potions[mid]);
+            long product = (long) spell * potions[mid];
             if(product < target){
                 l = mid + 1;
             }
