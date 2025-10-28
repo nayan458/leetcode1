@@ -4,32 +4,53 @@ class Solution {
     public int countValidSelections(int[] nums) {
         List<Integer> mergeSum = merge(nums);
         int[] prefixSum = prefixSumCalc(mergeSum);
-
         return Count(prefixSum, hm);
         
     }
 
     private int Count(int[] prefixSum, Map<Integer,Integer> hm) {
-        int count = 0;
         int n = prefixSum.length;
         if(n == 0)
             return (hm.get(0) * 2);
         if(n == 1 && prefixSum[0] == 1)
             return hm.getOrDefault(0,0) + hm.getOrDefault(1,0);
-            
-        for(int i = 0; i < n - 1; i++) {
-            int target = Math.abs(prefixSum[n-1] - (2 * prefixSum[i]));
-            System.out.println(target);
-            if( target == 0){
-                System.out.println(i);
-                count += (2 * hm.getOrDefault(i+1,1));
-            }
-            if( target == 1)
-                count += hm.getOrDefault(i+1,1);
-        }
+
+        int count = 0;
+
+        for(int i = 0; i < n; i++)
+            System.out.print(prefixSum[i] + " ");
+        System.out.println();
+        System.out.println(hm);
+        System.out.println(binarySearch(prefixSum, 0));
+        System.out.println(binarySearch(prefixSum, 1));
+        System.out.println(binarySearch(prefixSum, -1));
+        count += (
+            (2 * hm.getOrDefault(binarySearch(prefixSum, 0), 0)) + 
+            hm.getOrDefault(binarySearch(prefixSum, 1), 0) +
+            hm.getOrDefault(binarySearch(prefixSum, -1), 0)
+            );
 
         return count;
     }
+
+    private int binarySearch(int[] arr, int target) {
+        int l = 0; 
+        int r = arr.length - 2;
+        int total = arr[arr.length - 1];
+        int mid = 0;
+        while(l <= r) {
+            mid = l + ((r - l) / 2);
+            int x = total - (2 * arr[mid]);
+            if(x == target)
+                return mid + 1;
+            if(x > target)
+                l = mid + 1;
+            else
+                r = mid - 1;
+        }
+        return -1;
+    }
+
 
     private List<Integer> merge(int[] nums) {
         List<Integer> mergeSum = new ArrayList<>();
