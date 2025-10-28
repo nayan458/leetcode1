@@ -17,13 +17,6 @@ class Solution {
 
         int count = 0;
 
-        for(int i = 0; i < n; i++)
-            System.out.print(prefixSum[i] + " ");
-        System.out.println();
-        System.out.println(hm);
-        System.out.println(binarySearch(prefixSum, 0));
-        System.out.println(binarySearch(prefixSum, 1));
-        System.out.println(binarySearch(prefixSum, -1));
         count += (
             (2 * hm.getOrDefault(binarySearch(prefixSum, 0), 0)) + 
             hm.getOrDefault(binarySearch(prefixSum, 1), 0) +
