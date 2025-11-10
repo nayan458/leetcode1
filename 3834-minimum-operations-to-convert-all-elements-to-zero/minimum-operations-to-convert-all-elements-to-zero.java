@@ -16,12 +16,10 @@ class Solution {
                 while(!st.isEmpty() && st.peek() > elem) {
                     st.pop();
                 }
-                if((!st.isEmpty() && st.peek() == elem)) {
+                if(elem == 0 || (!st.isEmpty() && st.peek() == elem)) {
                     continue;
                 } else {
                     st.push(elem);
-                    if(elem == 0)
-                        continue;
                     count++;
                 }
 
