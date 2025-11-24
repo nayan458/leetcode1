@@ -9,7 +9,7 @@ class Solution {
         List<Boolean> div = new ArrayList<>();
         int sum = 0;
         for(int elem: nums) {
-            sum = (((sum << 1) % 5) + elem) % 5;
+            sum = (((sum * 2) % 5) + (elem % 5)) % 5;
             if(sum == 0)
                 div.add(true);
             else
