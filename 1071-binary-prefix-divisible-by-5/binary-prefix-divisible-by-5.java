@@ -1,5 +1,11 @@
 class Solution {
-    public List<Boolean> prefixesDivBy5(int[] nums) {
+    static {
+        int[] nums = {0,1,1,1,1,1};
+        for(int i = 0; i < 500; i++)
+            prefixesDivBy5(nums);
+    }
+
+    public static List<Boolean> prefixesDivBy5(int[] nums) {
         List<Boolean> div = new ArrayList<>();
         int sum = 0;
         for(int i = 0; i < nums.length; i++) {
