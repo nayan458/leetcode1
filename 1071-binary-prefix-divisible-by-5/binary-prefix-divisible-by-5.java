@@ -6,7 +6,7 @@ class Solution {
             if(nums[i] == 1)
                 sum = (((sum << 1) % 5) + 1) % 5;
             else
-                sum = (sum << 5) % 5;
+                sum = (sum << 1) % 5;
             if(sum == 0)
                 div.add(true);
             else
