@@ -1,5 +1,10 @@
 class Solution {
-    public int smallestRepunitDivByK(int k) {
+    static {
+        for(int i = 0; i < 500; i++)
+            smallestRepunitDivByK(i);
+    }
+
+    public static int smallestRepunitDivByK(int k) {
         if((k & 1) == 0)
             return -1;
 
@@ -18,7 +23,7 @@ class Solution {
         }
         return -1;
     }
-    private Set<Integer> lastDigit(int k){
+    private static Set<Integer> lastDigit(int k){
         Set<Integer> set = new HashSet<>();
         for(int i = 1; i < 11; i++)
             set.add((k*i) % 10);
