@@ -1,78 +1,64 @@
 class Solution {
-    public long maxSubarraySum(int[] num, int js) {
-        if(js == 200000){
-
-            long h = -200000000000000l;
-            return h;
-        }
-        long k = js;
+    public long maxSubarraySum(int[] num, int k) {
         long[] nums = new long[num.length];
         for(int i = 0; i < num.length; i++)
             nums[i] = num[i];
 
-        Map<Integer, long[]> hm = new HashMap<>();
-
         if(k == 1)
-            return maximumSumSubarray(nums);
+            return kadane(nums);
 
         createPrefixSum(nums);
-        long[] t = createMultiplicativeArrays(nums, js);
-        
-        for(int i = 0; i < k; i++)
-            hm.put(i, extractKthTerms(t, i, k));
+        long[] t = createMultiplicativeArrays(nums, k);
 
-        long max = Integer.MIN_VALUE;
-        for(Map.Entry<Integer, long[]> entry: hm.entrySet()){
-            long[] value = entry.getValue();
-            max = Math.max(maximumSumSubarray(value), max);
+        long ans = Long.MIN_VALUE;
+
+        for(int i = 0; i < k; i++) {
+            long[] seq = extractKthTerms(t, i, k);
+            ans = Math.max(ans, kadane(seq));
         }
-        return max;
-    }
-
-    private long[] extractKthTerms(long[] arr, int t, long k) {
-        long n = arr.length;
-        int size = (int)((n - t + k - 1) / k);
-
-        long[] ans = new long[size];
-        int idx = 0;
-
-        for (int i = t; i < n; i += k) 
-            ans[idx++] = arr[i];
 
         return ans;
     }
 
-    private long maximumSumSubarray(long[] arr) {
-        System.out.println(Arrays.toString(arr));
-        long max = Integer.MIN_VALUE;
-        long currMax = Integer.MIN_VALUE;
+    private long[] extractKthTerms(long[] arr, int start, int k) {
+        int n = arr.length;
+        int size = (n - start + k - 1) / k;
 
-        for(long elem: arr) {
-            if(currMax < 0 || currMax + elem < 0) 
-                currMax = elem;
-            else
-                currMax += elem;
-            max = Math.max(max, currMax);
+        long[] result = new long[size];
+        int idx = 0;
+
+        for (int i = start; i < n; i += k)
+            result[idx++] = arr[i];
+
+        return result;
+    }
+
+    private long kadane(long[] arr) {
+        long max = Long.MIN_VALUE;
+        long curr = 0;
+
+        for (long x : arr) {
+            curr = Math.max(x, curr + x);
+            max = Math.max(max, curr);
         }
 
-        return Math.max(max,currMax);
+        return max;
     }
 
     private void createPrefixSum(long[] nums) {
-        int n = nums.length;
-        long prefixSum = 0;
-        for(int i = 0; i < n; i++) {
-            prefixSum += nums[i];
-            nums[i] = prefixSum;
+        long prefix = 0;
+        for (int i = 0; i < nums.length; i++) {
+            prefix += nums[i];
+            nums[i] = prefix;
         }
     }
 
     private long[] createMultiplicativeArrays(long[] prefix, int k) {
         int n = prefix.length;
         int tSize = n - k + 1;
+
         long[] t = new long[tSize];
 
-        // t[i] = prefix[i+k-1] - prefix[i-1]
         for (int i = 0; i < tSize; i++) {
             if (i == 0)
                 t[i] = prefix[i + k - 1];
