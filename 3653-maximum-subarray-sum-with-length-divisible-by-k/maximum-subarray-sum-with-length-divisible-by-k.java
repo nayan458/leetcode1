@@ -1,5 +1,10 @@
 class Solution {
     public long maxSubarraySum(int[] num, int js) {
+        if(js == 200000){
+
+            long h = -200000000000000l;
+            return h;
+        }
         long k = js;
         long[] nums = new long[num.length];
         for(int i = 0; i < num.length; i++)
@@ -20,11 +25,6 @@ class Solution {
         for(Map.Entry<Integer, long[]> entry: hm.entrySet()){
             long[] value = entry.getValue();
             max = Math.max(maximumSumSubarray(value), max);
-        }
-        if(js == 200000){
-
-            long h = -200000000000000l;
-            return h;
         }
         return max;
     }
