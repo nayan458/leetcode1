@@ -3,49 +3,32 @@ class Solution {
     private int n;
     private int k;
     private int[][][] t;
-    private static final int MOD = 1_000_000_007;
-
+    private int MOD = 1_000_000_007;
     public int numberOfPaths(int[][] grid, int k) {
         this.k = k;
         this.m = grid.length;
         this.n = grid[0].length;
-
-        // allocate AFTER initializing m,n
         this.t = new int[m][n][k];
+        for(int i = 0; i < m; i++)
+            for(int j = 0; j < n; j++)
+                for(int l = 0; l < k; l++)
+                    t[i][j][l] = -1;
 
-        // initialize memo with -1
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-                for (int mod = 0; mod < k; mod++)
-                    t[i][j][mod] = -1;
-
-        return dfs(grid, 0, 0, 0);
+        return dfs(grid,0,0,0);
     }
 
-    private int dfs(int[][] grid, int row, int col, int sum_mod) {
-
-        // Out of bounds
-        if (row >= m || col >= n)
+    private int dfs(int[][] grid, int row, int col, int mod_sum) {
+        if(col == n || row == m)
             return 0;
+        mod_sum = ((mod_sum % k) + (grid[row][col] % k)) % k;
+        if(t[row][col][mod_sum] != -1)
+            return t[row][col][mod_sum];
 
-        // Recalculate mod using current cell
-        int new_mod = (sum_mod + grid[row][col]) % k;
+        if(row == m-1 && col == n-1)
+            return t[row][col][mod_sum] = (mod_sum == 0) ? 1 : 0;
 
-        // Base case
-        if (row == m - 1 && col == n - 1)
-            return (new_mod == 0) ? 1 : 0;
-
-        // Memo lookup
-        if (t[row][col][new_mod] != -1)
-            return t[row][col][new_mod];
-
-        // Compute both choices
-        long right = dfs(grid, row, col + 1, new_mod);
-        long down  = dfs(grid, row + 1, col, new_mod);
-
-        // Store modded result in memo
-        long ans = (right + down) % MOD;
-
-        return t[row][col][new_mod] = (int) ans;
+        int rightPath = dfs(grid, row, col + 1, mod_sum);
+        int leftPath = dfs(grid, row + 1, col, mod_sum);
+        return t[row][col][mod_sum] = (rightPath + leftPath) % MOD;
     }
 }
