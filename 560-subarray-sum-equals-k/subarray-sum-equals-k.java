@@ -1,33 +1,15 @@
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        int[] prefixSum = createPrefixSum(nums,k);    
-        int count = 0;
-        for(int i = 1; i < nums.length + 1; i++)
-            count += countDivByK(prefixSum,i,k);
-        return count;
-    }
-
-    private int countDivByK(int[] prefixSum, int d, int k) {
-        int count = 0;
-        if(prefixSum[d-1] == k)
-            count++;
-        for(int i = d; i < prefixSum.length; i++) {
-            int left = prefixSum[i-d];
-            int right = prefixSum[i];
-            if((right - left) == k)
-                count++;
-        }
-        return count;
-    }
-
-    private int[] createPrefixSum(int[] nums, int k) {
         int sum = 0;
-        int[] prefixSum = new int[nums.length];
-        int i = 0;
+        Map<Integer, Integer> hm = new HashMap<>();
+        int ans = 0;
+        hm.put(0,1);
         for(int elem: nums) {
             sum += elem;
-            prefixSum[i++] = sum;
+            if(hm.containsKey(sum - k))
+                ans += hm.get(sum - k);
+            hm.put(sum,hm.getOrDefault(sum,0) + 1);
         }
-        return prefixSum;
+        return ans;
     }
 }
