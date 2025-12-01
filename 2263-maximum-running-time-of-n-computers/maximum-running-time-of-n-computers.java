@@ -3,7 +3,7 @@ class Solution {
         long total_sum = sum(batteries);
         if(n == 1) return total_sum;
 
-        long left = 0, right = total_sum;
+        long left = 0, right = total_sum/n;
 
         while(left < right) {
             long mid = left + (right - left + 1) / 2;
