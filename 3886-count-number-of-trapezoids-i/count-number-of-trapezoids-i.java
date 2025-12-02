@@ -1,6 +1,5 @@
 class Solution {
-    private static final int MOD = 1_000_000_007;
-    
+    private int MOD = 1_000_000_007;
     public int countTrapezoids(int[][] points) {
         Map<Integer, Integer> slope_group = new HashMap<>();
         List<Long> arr = new ArrayList<>();
@@ -19,30 +18,14 @@ class Solution {
                 else
                     pair = count * (count - 1) / 2;
                 arr.add(pair);
-                sum = (sum + pair) % MOD;
+                sum += pair;
             }
         }
     
         for(long elem : arr){
-            result = (result + elem * ((sum - elem + MOD) % MOD)) % MOD;
+            result += elem * (sum - elem);
         }
-        
-        return (int) ((result * modInverse(2)) % MOD);
-    }
 
-     private long modInverse(long a) {
-         return power(a, MOD - 2);
-     }
-
-    private long power(long a, long b) {
-        long res = 1;
-        a %= MOD;
-        while(b > 0) {
-            if((b & 1) == 1)
-                res = (res * a) % MOD;
-            a = (a * a) % MOD;
-            b >>= 1;
-        }
-         return res;       
+        return (int) ((result / 2) % MOD);
     }
 }
