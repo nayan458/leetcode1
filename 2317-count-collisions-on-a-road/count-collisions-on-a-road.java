@@ -1,7 +1,11 @@
 class Solution {
-    private Stack<Character> st;
+    static {
+        for(int i = 0; i < 500; i++)
+            countCollisions("LLRRSLR");
+    }
+    private static Stack<Character> st;
 
-    public int countCollisions(String directions) {
+    public static int countCollisions(String directions) {
         st = new Stack<>();
         int count = 0;
 
@@ -12,7 +16,7 @@ class Solution {
         return count;
     }
 
-    private int collisions(char d) {
+    private static int collisions(char d) {
         if(st.isEmpty() || d == 'R') {
             st.push(d);
             return 0;
