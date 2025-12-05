@@ -1,26 +1,27 @@
 class Solution {
     public int kthFactor(int n, int k) {
-        Set<Integer> st = new HashSet<>();
+        boolean[] visited = new boolean[n+1];
+        PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.reverseOrder());
+
         for(int i = 1; i*i <= n; i++) {
-            System.out.print("for elem: " + i + "\n");
             if(n % i == 0) {
-                // int e1 = i;
-                // int e2 = n/i;
-                // System.out.print(e1 + " " + e2 + " " + st + "\n");
-                st.add(n/i);
-                st.add(i);
+                if(visited[i])
+                    continue;
+                heap.add(i);
+                visited[i] = true;
+                if(visited[n/i])
+                    continue;
+                heap.add(n/i);
+                visited[n/i] = true;
             }
+            while(heap.size() > k)
+                heap.poll();
         }
-        if(st.size() < k)
+        while(heap.size() > k)
+            heap.poll();
+        System.out.println(heap);
+        if(heap.size() < k)
             return -1;
-        System.out.println(st);
-        int[] arr = new int[st.size()];
-        int i = 0;
-        
-        for(int elem: st)
-            arr[i++] = elem;
-        Arrays.sort(arr);
-        System.out.println(Arrays.toString(arr));
-        return arr[k-1];
+        return heap.poll();
     }
 }
