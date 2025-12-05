@@ -1,19 +1,17 @@
 class Solution {
     public int partitionString(String s) {
-        Set<Character> set = new HashSet<>();
+        boolean[] set = new boolean[26];
         int count = 0;
         for(int i = 0; i < s.length(); i++) {
-            if(set.contains(s.charAt(i))) {
+            if(set[s.charAt(i) - 'a']) {
                 count++;
-                set = new HashSet<>();
-                set.add(s.charAt(i));
+                set = new boolean[26];
+                set[s.charAt(i) - 'a'] = true;
             }   else {
-                set.add(s.charAt(i));
+                set[s.charAt(i) - 'a'] = true;
             }
         }
 
-        if(set.size() > 0)
-            return count+1;
-        return count;
+        return count+1;
     }
 }
