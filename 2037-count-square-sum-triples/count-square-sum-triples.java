@@ -13,12 +13,7 @@ class Solution {
         int count = 0;
         for(int i = 1; i <= n; i++)
             for(int j = i+1; j <= n; j++) 
-                if(isTriplate(i,j,n)) {
-                    int c = square[i] + square[j];
-                    System.out.println(i + " " + j + " " + Math.sqrt(c));
-                    count++;
-                }   
-        // System.out.println(Arrays.toString(square));
+                if(isTriplate(i,j,n))   count++;
         return count * 2;
     }
 
