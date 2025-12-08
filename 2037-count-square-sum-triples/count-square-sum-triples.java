@@ -1,14 +1,5 @@
 class Solution {
-    private static final int[] square;
-    private static final Set<Integer> set;
-    static {
-        square = new int[251];
-        set = new HashSet<>();
-        for(int i = 0; i < 251; i++) {
-            square[i] = i*i;
-            set.add(square[i]);
-        }
-    }
+    
     public int countTriples(int n) {
         int count = 0;
         for(int i = 1; i <= n; i++)
@@ -18,8 +9,8 @@ class Solution {
     }
 
     private boolean isTriplate(int a, int b, int n) {
-        int c = square[a] + square[b];
-        if(set.contains(c) && Math.sqrt(c) <= n)
+        double c = Math.sqrt(((a*a) + (b*b)));
+        if(c == Math.floor(c) && c <= n)
             return true;
         return false;
 
