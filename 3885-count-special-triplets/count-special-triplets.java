@@ -2,7 +2,7 @@ class Solution {
     private static final int MOD = 1_000_000_007;
     public int specialTriplets(int[] nums) {
         Map<Integer, List<Integer>> hm = new HashMap<>();   // Map<Value, List<idx>>
-        long count = 0;
+        int count = 0;
         for(int i = 0; i < nums.length; i++)
             hm.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
         
@@ -11,20 +11,20 @@ class Solution {
             if(hm.containsKey(elem))
                 count = ((count % MOD) + (countSpecialIdx(hm.get(elem), j) % MOD)) % MOD;
         }
-        return (int)(count % MOD);
+        return count % MOD;
     }
 
-    private long countSpecialIdx(List<Integer> arr, int idx) {
+    private int countSpecialIdx(List<Integer> arr, int idx) {
         if(arr.size() < 1 || (arr.get(0) > idx || arr.get(arr.size() - 1) < idx))
             return 0;
         int insertionIdx = searchInsertIdx(arr, idx);
-        long left = insertionIdx;
-        long right = arr.size() - insertionIdx;
+        int left = insertionIdx;
+        int right = arr.size() - insertionIdx;
 
         if(arr.get(insertionIdx) == idx)
             --right;
 
-        return left * right;
+        return (int) (((left % MOD) * (1L % MOD) * (right % MOD)) % MOD);
 
     }
 
