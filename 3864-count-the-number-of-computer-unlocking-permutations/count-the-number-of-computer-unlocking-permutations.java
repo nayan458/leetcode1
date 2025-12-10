@@ -5,7 +5,6 @@ class Solution {
         if(noMaster(complexity)) return 0;
         int n = complexity.length;
         for(int i = 1; i < n; i++)
-            // count = (int) ((count % MOD) * (1L % MOD) * (i % MOD)) % MOD;
             count = (int) (((count % MOD) * (1L % MOD) * (i % MOD)) % MOD);
         return count % MOD;
     }
