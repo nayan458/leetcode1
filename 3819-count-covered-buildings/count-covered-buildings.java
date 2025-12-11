@@ -5,26 +5,16 @@ class Solution {
         int count = 0;
 
         initializeMinMax(rowMaxMin, colMaxMin, n, buildings);
-        
-        // System.out.println("====== Row Max Mins ======");
-        // System.out.println(Arrays.deepToString(rowMaxMin));
-        // System.out.println("====== Col Max Mins ======");
-        // System.out.println(Arrays.deepToString(colMaxMin));
 
-        for(int[] building: buildings)
-            if(isCovered(building[0], building[1], rowMaxMin, colMaxMin))   count++;
-        
+        for(int[] building: buildings) {
+            int x = building[0], y = building[1]; 
+            if (y < rowMaxMin[x][1] && y > rowMaxMin[x][0] && x < colMaxMin[y][1] && x > colMaxMin[y][0]) count++;
+        }
         return count;
     }
 
     private boolean isCovered(int x, int y, int[][] rowMaxMin, int[][] colMaxMin) {
-            int rowMax = rowMaxMin[x][1];
-            int rowMin = rowMaxMin[x][0];
-            int colMax = colMaxMin[y][1];
-            int colMin = colMaxMin[y][0];
-            // if(x == 2 && y == 3)
-            //     System.out.println(x + " < " + rowMax + " && " + x + " > " + rowMin + " && " + y + " < " + colMax + " && " + y + " > " + colMin);
-            return y < rowMax && y > rowMin && x < colMax && x > colMin;
+            return y < rowMaxMin[x][1] && y > rowMaxMin[x][0] && x < colMaxMin[y][1] && x > colMaxMin[y][0];
     }
 
     private void initializeMinMax(int[][] rowMaxMin, int[][] colMaxMin, int n, int[][] buildings) {
