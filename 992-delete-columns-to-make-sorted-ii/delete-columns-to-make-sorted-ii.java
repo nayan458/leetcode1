@@ -30,10 +30,8 @@ class Solution {
                     skipCol = true;
                 prev = sb[j];
             }
-            if(!deleteCol && !skipCol) {  
-                // System.out.println(Arrays.toString(sb));
+            if(!deleteCol && !skipCol) 
                 return count;
-            }
         }
 
         return count;
