@@ -1,7 +1,7 @@
 class Solution {
     public long maxMatrixSum(int[][] matrix) {
         long sum = 0;
-        long min = Integer.MAX_VALUE;
+        long min = 100_001;
         int count = 0;
 
         for(int[] row: matrix){
