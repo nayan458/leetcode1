@@ -1,6 +1,6 @@
 class Solution {
 
-    private int max;
+    private int max  = 0;
     private int level = 1;
 
     public int maxLevelSum(TreeNode root) {
