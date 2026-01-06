@@ -1,7 +1,7 @@
 class Solution {
 
-    private int max = 0;
-    private int level = 0;
+    private int max;
+    private int level = 1;
 
     public int maxLevelSum(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
@@ -17,7 +17,7 @@ class Solution {
             TreeNode node = q.poll();
             
             if(node == null) {
-                if(max < sum || (max == sum && level == 0)){
+                if(max < sum){
                     max = sum;
                     level = curr_level;
                 }
