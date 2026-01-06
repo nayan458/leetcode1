@@ -21,7 +21,6 @@ class Solution {
                     max = sum;
                     level = curr_level;
                 }
-                System.out.println(sum + " " + curr_level);
                 curr_level++;
                 sum = 0;
                 if (!q.isEmpty())
