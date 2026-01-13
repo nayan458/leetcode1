@@ -1,36 +1,28 @@
 class Solution {
-    public boolean isValid(String str) {
+    public boolean isValid(String s) {
+        int i = 0;
         Stack<Character> st = new Stack<>();
-        for(int i = 0; i < str.length(); i++){
-            char ch = str.charAt(i);
-            try{
-                switch(ch) {
-                    case ')':
-                        if(st.peek() == '(') {
-                            st.pop();
-                            break;
-                        }
-                        return false;
-                    case '}':
-                        if(st.peek() == '{') {
-                            st.pop();
-                            break;
-                        }
-                        return false;
-                    case ']':
-                        if(st.peek() == '[') {
-                            st.pop();
-                            break;
-                        }
-                        return false;
-                    default:
-                        st.push(ch);
-                        break;
-                }
-            } catch (Exception  e) {
-                return false;
+        while(i < s.length()){
+            char ch = s.charAt(i);
+            if(isOpenParentheses(ch))
+                st.add(ch);
+            else {
+                if(st.isEmpty() || notValid(ch,st.peek()))
+                    return false;
+                st.pop();
             }
+            i++;
         }
-        return st.empty();
+        return true && st.isEmpty();
+    }
+
+    private boolean notValid(char close, char open){
+        return (close == ')' && open != '(') ||
+            (close == '}' && open != '{') ||
+            (close == ']' && open != '[');
+    }
+
+    private boolean isOpenParentheses(char ch) {
+        return ch == '(' || ch == '{' || ch == '[';
     }
 }
