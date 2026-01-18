@@ -13,10 +13,10 @@ class Solution {
         prefixSumRow = new int[m][n];
         prefixSumCol = new int[m][n];
         prefixSumDiag = new int[m][n];
-
+        
         calcPrefixSum(grid);
 
-        for (int size = Math.min(m, n); size >= 1; size--) {
+        for (int size = Math.min(m, n); size > 0; size--) {
             for (int i = 0; i + size - 1 < m; i++) {
                 for (int j = 0; j + size - 1 < n; j++) {
                     if (isMagicSquare(i, j, size)) return size;
@@ -42,40 +42,50 @@ class Solution {
     }
 
     private boolean isMagicSquare(int i, int j, int size) {
-        int target = getRowSum(i, j, size);
-        if (target == -1) return false;
+        int row = getRowSum(i, j, size);
+        if (row < 0) return false;
 
-        if (getColSum(i, j, size, target) == false) return false;
+        int col = getColSum(i, j, size);
+        if (row != col) return false;
 
+        int diag = getDiagSum(i, j, size);
+        return row == diag;
+    }
+
+    private int getRowSum(int i, int j, int size) {
+        int sum = 0;
+        for (int t = 0; t < size; t++) {
+            int curr = prefixSumRow[i + t][j + size - 1]
+                     - (j > 0 ? prefixSumRow[i + t][j - 1] : 0);
+            if (t == 0) sum = curr;
+            else if (sum != curr) return -1;
+        }
+        return sum;
+    }
+
+    private int getColSum(int i, int j, int size) {
+        int sum = 0;
+        for (int t = 0; t < size; t++) {
+            int curr = prefixSumCol[i + size - 1][j + t]
+                     - (i > 0 ? prefixSumCol[i - 1][j + t] : 0);
+            if (t == 0) sum = curr;
+            else if (sum != curr) return -2;
+        }
+        return sum;
+    }
+
+    private int getDiagSum(int i, int j, int size) {
         int diag1 = prefixSumDiag[i + size - 1][j + size - 1]
                   - (i > 0 && j > 0 ? prefixSumDiag[i - 1][j - 1] : 0);
 
         int diag2 = 0;
         for (int k = 0; k < size; k++) {
             diag2 += prefixSumRow[i + k][j + size - 1 - k]
-                   - (j + size - 2 - k >= 0 ? prefixSumRow[i + k][j + size - 2 - k] : 0);
+                   - (j + size - 2 - k >= 0
+                      ? prefixSumRow[i + k][j + size - 2 - k]
+                      : 0);
         }
 
-        return diag1 == target && diag2 == target;
-    }
-
-    private int getRowSum(int i, int j, int size) {
-        int sum = -1;
-        for (int r = 0; r < size; r++) {
-            int curr = prefixSumRow[i + r][j + size - 1]
-                     - (j > 0 ? prefixSumRow[i + r][j - 1] : 0);
-            if (sum == -1) sum = curr;
-            else if (sum != curr) return -1;
-        }
-        return sum;
-    }
-
-    private boolean getColSum(int i, int j, int size, int target) {
-        for (int c = 0; c < size; c++) {
-            int curr = prefixSumCol[i + size - 1][j + c]
-                     - (i > 0 ? prefixSumCol[i - 1][j + c] : 0);
-            if (curr != target) return false;
-        }
-        return true;
+        return diag1 == diag2 ? diag1 : -3;
     }
 }
