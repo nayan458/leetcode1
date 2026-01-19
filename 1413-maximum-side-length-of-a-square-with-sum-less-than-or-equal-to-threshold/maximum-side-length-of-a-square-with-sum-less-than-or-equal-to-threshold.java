@@ -13,19 +13,18 @@ class Solution {
         createPrefixSum(mat);
 
         int l = 0;
-        int r = Math.min(m - 1, n - 1);
-
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            if (isPosible(mid)) {
+        int r = Math.min(m-1,n-1);
+        while(l <= r){
+            int mid = l + (r-l)/2;
+            if(isPosible(mid)) {
                 l = mid + 1;
-            } else {
-                r = mid - 1;
             }
+            else
+                r = mid - 1;
         }
-        return l; // correct side length
+        return l;
     }
-
+    
     private boolean isPosible(int size) {
         for (int i = 0; i + size < m; i++) {
             for (int j = 0; j + size < n; j++) {
@@ -40,16 +39,10 @@ class Solution {
         }
         return false;
     }
-
+    
     private void createPrefixSum(int[][] arr) {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                prefixSum[i][j] =
-                    arr[i][j]
-                    + (i > 0 ? prefixSum[i - 1][j] : 0)
-                    + (j > 0 ? prefixSum[i][j - 1] : 0)
-                    - (i > 0 && j > 0 ? prefixSum[i - 1][j - 1] : 0);
-            }
-        }
+        for(int i = 0; i < m; i++)
+            for(int j = 0; j < n; j++)
+                prefixSum[i][j] = arr[i][j] - (i > 0 && j > 0 ? prefixSum[i-1][j-1] : 0) + ( i > 0 ? prefixSum[i-1][j] : 0) + (j > 0 ?prefixSum[i][j-1] : 0);
     }
 }
