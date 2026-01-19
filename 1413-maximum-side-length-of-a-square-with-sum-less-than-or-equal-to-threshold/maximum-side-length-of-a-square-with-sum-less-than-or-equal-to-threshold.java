@@ -25,21 +25,35 @@ class Solution {
         return l;
     }
     
-    private boolean isPosible(int size) {
-        for (int i = 0; i + size < m; i++) {
-            for (int j = 0; j + size < n; j++) {
-                int sum =
-                    prefixSum[i + size][j + size]
-                    - (i > 0 ? prefixSum[i - 1][j + size] : 0)
-                    - (j > 0 ? prefixSum[i + size][j - 1] : 0)
-                    + (i > 0 && j > 0 ? prefixSum[i - 1][j - 1] : 0);
-
-                if (sum <= threshold) return true;
+    private boolean isPosible(int size){
+        for(int i = 0; i+size < m; i++)
+            for(int j = 0; j+size < n; j++){
+                int sum = 
+                    prefixSum[i+size][j+size] 
+                    - (i > 0 ? prefixSum[i-1][j+size] : 0) 
+                    - (j > 0 ? prefixSum[i+size][j-1] : 0) 
+                    + (i > 0 && j > 0 ? prefixSum[i-1][j-1] : 0);
+                if(sum <= threshold)
+                    return true;
             }
-        }
         return false;
     }
     
+    // private boolean isPosible(int size) {
+    //     for (int i = 0; i + size < m; i++) {
+    //         for (int j = 0; j + size < n; j++) {
+    //             int sum =
+    //                 prefixSum[i + size][j + size]
+    //                 - (i > 0 ? prefixSum[i - 1][j + size] : 0)
+    //                 - (j > 0 ? prefixSum[i + size][j - 1] : 0)
+    //                 + (i > 0 && j > 0 ? prefixSum[i - 1][j - 1] : 0);
+
+    //             if (sum <= threshold) return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
     private void createPrefixSum(int[][] arr) {
         for(int i = 0; i < m; i++)
             for(int j = 0; j < n; j++)
