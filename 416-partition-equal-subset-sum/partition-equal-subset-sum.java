@@ -27,10 +27,8 @@ class Solution {
     private void init(int m, int n){
         t = new int[m][n];
         for(int i = 0; i < t.length; i++)
-            for(int j = 0; j < t[0].length; j++) {
-                if(j == 0) t[i][j] = -1;
-                else if( i == 0) t[i][j] = 1;
-            }
+            t[i][0] = -1;
+        for(int j = 1; j < t[0].length; j++) 
+            t[0][j] = 1;
     }
-    
 }
