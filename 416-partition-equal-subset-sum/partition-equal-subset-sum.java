@@ -1,39 +1,28 @@
 class Solution {
     int[][] t;
     public boolean canPartition(int[] nums) {
-        int n = nums.length, sum = 0;
-
+        int total = 0;
         for(int elem: nums)
-            sum += elem;
-        
-        t = new int[n+1][sum/2 + 1];
-
-        return sum % 2 == 0 && dp(nums, sum/2, n);
+            total += elem;
+        if((total & 1) == 1) return false;
+        int target = total/2;
+        t = new int[target+1][nums.length+1];
+        return check(nums,target,nums.length) == 1;
     }
-    private boolean dp(int[] nums, int sum, int n){
-        if(sum < 0 || n == 0)
-            return false;
-        if(sum == 0)
-            return true;
-        boolean include = false, exclude = false;
-        if(sum - nums[n - 1] >= 0){
-            if(t[n-1][sum - nums[n - 1]] == 0){
-                include = dp(nums, sum - nums[n - 1], n - 1);
-                exclude = dp(nums, sum, n - 1);
 
-                if(include)
-                    t[n-1][sum - nums[n - 1]] = 1;
-                else
-                    t[n-1][sum - nums[n - 1]] = -1;
-            } else{
-                include = (t[n-1][sum - nums[n - 1]] == 1);
-                exclude = dp(nums, sum, n - 1);
-            }
-        }else{
-            exclude = dp(nums, sum, n - 1);
+    private int check(int[] nums, int target, int idx){
+        if(idx == 0 || target < 0)
+            return -1;
+        if(target == 0)
+            return 1;
+        if(t[target][idx] != 0)
+            return t[target][idx];
+        if(nums[idx-1] > target)
+            return t[target][idx] = check(nums,target,idx-1);
+        else {
+            int include = check(nums,target - nums[idx-1],idx-1);
+            int exclude = check(nums,target,idx-1);
+            return t[target][idx] = (include == 1 || exclude == 1) ? 1 : -1;
         }
-        boolean response = include || exclude;
-        t[n][sum] = response ? 1 : -1;
-        return response;
     }
 }
