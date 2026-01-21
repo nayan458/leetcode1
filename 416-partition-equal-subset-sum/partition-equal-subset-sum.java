@@ -6,23 +6,29 @@ class Solution {
             total += elem;
         if((total & 1) == 1) return false;
         int target = total/2;
-        t = new int[target+1][nums.length+1];
-        return check(nums,target,nums.length) == 1;
+        
+        init(target+1,nums.length+1);
+
+        for(int i = 1; i <= target; i++)
+            for(int j = 1; j <= nums.length; j++) {
+                if(t[i][j] != 0)
+                    continue;
+                if(nums[j-1] > i)
+                    t[i][j] = t[i][j-1];
+                else {
+                    int include = t[i - nums[j-1]][j-1];
+                    int exclude = t[i][j-1];
+                    t[i][j] = Math.max(include,exclude);
+                }
+            }
+        return t[target][nums.length] == 1;
     }
 
-    private int check(int[] nums, int target, int idx){
-        if(idx == 0 || target < 0)
-            return -1;
-        if(target == 0)
-            return 1;
-        if(t[target][idx] != 0)
-            return t[target][idx];
-        if(nums[idx-1] > target)
-            return t[target][idx] = check(nums,target,idx-1);
-        else {
-            int include = check(nums,target - nums[idx-1],idx-1);
-            int exclude = check(nums,target,idx-1);
-            return t[target][idx] = (include == 1 || exclude == 1) ? 1 : -1;
-        }
+    private void init(int m, int n){
+        t = new int[m][n];
+        for(int i = 0; i < t.length; i++)
+            t[i][0] = -1;
+        for(int j = 1; j < t[0].length; j++) 
+            t[0][j] = 1;
     }
 }
