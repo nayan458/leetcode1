@@ -26,10 +26,13 @@ class Solution {
             if(visited[node])   continue;
             visited[node] = true;
             
+            if(node == target)  return curr_cost;
+
             for(int[] neighbor: adjList.get(node)){
                 int u = neighbor[0];
                 int cost = neighbor[1] + curr_cost;
-                costs[u] = Math.min(costs[u], cost);
+                if(visited[u]) continue;
+                costs[u] = cost;
                 heap.offer(new int[]{cost,u});
             }
         }
