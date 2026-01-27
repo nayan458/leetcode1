@@ -9,37 +9,32 @@ class Solution {
 
     private int dijkstra(List<List<int[]>> adjList, int source, int target) {
         int n = adjList.size();
+        int[] costs = new int[n];
+        Arrays.fill(costs,Integer.MAX_VALUE);
+        costs[source]=0;
+
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a,b) -> a[0] - b[0]);
         boolean[] visited = new boolean[n];
-        int[] cost = new int[n];
-        Arrays.fill(cost, Integer.MAX_VALUE);
 
-        PriorityQueue<int[]> heap = new PriorityQueue<>(CMP);
+        heap.offer(new int[]{0,source});
 
-        cost[source] = 0;
-        heap.offer(new int[]{0, source});
-
-        while (!heap.isEmpty()) {
-            int[] cur = heap.poll();
-            int currCost = cur[0];
-            int u = cur[1];
-
-            if (visited[u]) continue;
-            visited[u] = true;
-
-            if (u == target) return currCost;
-
-            for (int[] edge : adjList.get(u)) {
-                int v = edge[0];
-                int w = edge[1];
-
-                if (!visited[v] && currCost + w < cost[v]) {
-                    cost[v] = currCost + w;
-                    heap.offer(new int[]{cost[v], v});
-                }
+        while(!heap.isEmpty()){
+            int[] vertex = heap.poll();
+            int curr_cost = vertex[0];
+            int node = vertex[1];
+            
+            if(visited[node])   continue;
+            visited[node] = true;
+            
+            for(int[] neighbor: adjList.get(node)){
+                int u = neighbor[0];
+                int cost = neighbor[1] + curr_cost;
+                costs[u] = Math.min(costs[u], cost);
+                heap.offer(new int[]{cost,u});
             }
         }
 
-        return cost[target] == Integer.MAX_VALUE ? -1 : cost[target];
+        return visited[target] ? costs[target] : -1;
     }
 
     private List<List<int[]>> createGraph(int[][] edges, int n) {
