@@ -11,7 +11,7 @@ class Solution {
 
         for(int i = 1; i <= text1.length(); i++) {
             for(int j = 1; j <= text2.length(); j++) {
-                if(t[i][j] != -1) continue;
+                // if(t[i][j] != -1) continue;
                 if(text1.charAt(i-1) == text2.charAt(j-1))
                     t[i][j] = 1 + t[i-1][j-1];
                 else
