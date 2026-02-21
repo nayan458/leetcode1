@@ -13,7 +13,7 @@ class Solution {
     }
 
     private boolean isPrime(int count) {
-        for(int i = 2; i < count; i++)
+        for(int i = 2; i*i <= count; i++)
             if(count % i == 0)
                 return false;
         return (count >= 2) & true;
