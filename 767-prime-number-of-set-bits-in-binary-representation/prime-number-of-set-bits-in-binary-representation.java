@@ -2,7 +2,7 @@ class Solution {
     private static Set<Integer> prime = new HashSet<>();
 
     static {
-        int N = 1_000_001;
+        int N = 32;
         int[] lps = new int[N + 1];
         for(int i = 2; i < lps.length; i++) lps[i] = i;
         for(int x = 2; x*x <= lps.length;  x++){
