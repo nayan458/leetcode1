@@ -2,13 +2,8 @@ class Solution {
 
     public int countPrimeSetBits(int left, int right) {
         int result = 0;
-        for(int i = left; i <= right; i++){
-            int count = 0;
-            for(int j = 0; j < 32; j++)
-                if((i & (1 << j)) != 0)
-                    count++;
-            if(isPrime(count)) result++;
-        }
+        for(int i = left; i <= right; i++)
+            if(isPrime(Integer.bitCount(i))) result++;
         return result;
     }
 
