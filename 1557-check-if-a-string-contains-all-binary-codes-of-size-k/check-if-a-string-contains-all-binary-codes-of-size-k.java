@@ -18,8 +18,8 @@ class Solution {
             if(bits[i] == 1)
                 bf.setLastBit();
             set.add(bf.getValue());
-            i++;
             if(set.size() == (1 << k)) return true;
+            i++;
         }
         return set.size() == (1 << k);
     }
