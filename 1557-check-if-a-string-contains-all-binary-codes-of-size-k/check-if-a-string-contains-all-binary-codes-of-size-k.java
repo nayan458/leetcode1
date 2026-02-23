@@ -1,6 +1,6 @@
 class Solution {
-    private final Set<Integer> set = new HashSet<>();
     public boolean hasAllCodes(String s, int k) {
+        Set<Integer> set = new HashSet<>();
         if(s.length() < k)
             return false;
         int[] bits = s.chars()
@@ -20,9 +20,9 @@ class Solution {
                 bf.setLastBit();
             set.add(bf.getValue());
             i++;
+            if(set.size() == (1 << k)) return true;
         }
-        // System.out.println(set);
-        return set.size() == Math.pow(2,k);
+        return set.size() == (1 << k);
     }
 }
 class BitField {
