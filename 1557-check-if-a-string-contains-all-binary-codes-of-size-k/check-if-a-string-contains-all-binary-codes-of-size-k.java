@@ -1,8 +1,7 @@
 class Solution {
     public boolean hasAllCodes(String s, int k) {
         Set<Integer> set = new HashSet<>();
-        if(s.length() < k)
-            return false;
+        if((s.length() - k) < k) return false;
         int[] bits = s.chars()
               .map(c -> c - '0')
               .toArray();
