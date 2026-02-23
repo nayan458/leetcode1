@@ -1,6 +1,7 @@
 class Solution {
     public boolean hasAllCodes(String s, int k) {
-        Set<Integer> set = new HashSet<>();
+        int count = 0;
+        boolean[] visited = new boolean[(1 << k)];
         if((s.length() - k) < k) return false;
         int[] bits = s.chars()
               .map(c -> c - '0')
@@ -12,16 +13,20 @@ class Solution {
                 bf.setLastBit();
         }
         int i = k;
-        set.add(bf.getValue());
+        count++;
+        visited[bf.getValue()] = true;
         while(i < s.length()){
             bf.leftShift();
             if(bits[i] == 1)
                 bf.setLastBit();
-            set.add(bf.getValue());
-            if(set.size() == (1 << k)) return true;
+            if(!visited[bf.getValue()]) {
+                visited[bf.getValue()] = true;
+                count++;
+            }
+            if(count == (1 << k)) return true;
             i++;
         }
-        return set.size() == (1 << k);
+        return count == (1 << k);
     }
 }
 class BitField {
