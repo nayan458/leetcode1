@@ -9,15 +9,13 @@ class Solution {
         if(root == null)
             return;
 
-        num <<= 1;
-        if(root.val == 1)
-            num |= 1;
+        num = ((num << 1) | root.val);
 
         if(root.left == null && root.right == null){
             sum += num;
             return;
         }
-        
+
         nlr(root.left,num);
         nlr(root.right,num);
     }
