@@ -7,7 +7,7 @@ class Solution {
         for(int i = 0; i < s.length(); i++) {
             if(s.charAt(i) != x)
                 count++;
-            if(s.charAt(i) != y)
+            else
                 count1++;
             x = (x == '1' ? '0' : '1');
             y = (y == '1' ? '0' : '1');
