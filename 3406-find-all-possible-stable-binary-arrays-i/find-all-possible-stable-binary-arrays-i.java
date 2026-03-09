@@ -1,34 +1,45 @@
 class Solution {
+    private int max_limit;
+    private int[][][][] t;
+    private int MOD = 1_000_000_007;
 
     public int numberOfStableArrays(int zero, int one, int limit) {
-        int MOD = 1000000007;
-        // dp[z][o][0] -> ways where last element is 0
-        // dp[z][o][1] -> ways where last element is 1
-        long[][][] dp = new long[zero + 1][one + 1][2];
-        // base cases: only zeros
-        for(int i = 1; i <= Math.min(zero, limit); i++) {
-            dp[i][0][0] = 1;
-        }
-        // base cases: only ones
-        for(int j = 1; j <= Math.min(one, limit); j++) {
-            dp[0][j][1] = 1;
-        }
-        for(int z = 1; z <= zero; z++) {
-            for(int o = 1; o <= one; o++) {
-                // place 0 at the end
-                dp[z][o][0] = (dp[z-1][o][0] + dp[z-1][o][1]) % MOD;
+        this.max_limit = limit;
+        t = new int[zero+1][one+1][3][limit+1];
 
-                if(z - limit - 1 >= 0) {
-                    dp[z][o][0] = (dp[z][o][0] - dp[z-limit-1][o][1] + MOD) % MOD;
-                }
-                // place 1 at the end
-                dp[z][o][1] = (dp[z][o-1][0] + dp[z][o-1][1]) % MOD;
+        for (int i = 0; i <= zero; i++)
+            for (int j = 0; j <= one; j++)
+                for (int k = 0; k < 3; k++)
+                    for (int l = 0; l <= limit; l++)
+                        t[i][j][k][l] = -1;
 
-                if(o - limit - 1 >= 0) {
-                    dp[z][o][1] = (dp[z][o][1] - dp[z][o-limit-1][0] + MOD) % MOD;
-                }
-            }
+        return dp(zero, one, 2, limit);
+    }
+
+    private int dp(int zero, int one, int last, int limit) {
+
+        if (zero == 0 && one == 0)
+            return 1;
+
+        if (t[zero][one][last][limit] != -1)
+            return t[zero][one][last][limit];
+
+        long count = 0;
+
+        if (zero > 0) {
+            if (last != 0)
+                count += dp(zero-1, one, 0, max_limit-1);
+            else if (limit > 0)
+                count += dp(zero-1, one, 0, limit-1);
         }
-        return (int)((dp[zero][one][0] + dp[zero][one][1]) % MOD);
+
+        if (one > 0) {
+            if (last != 1)
+                count += dp(zero, one-1, 1, max_limit-1);
+            else if (limit > 0)
+                count += dp(zero, one-1, 1, limit-1);
+        }
+
+        return t[zero][one][last][limit] = (int)(count % MOD);
     }
 }
