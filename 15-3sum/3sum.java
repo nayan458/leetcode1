@@ -8,10 +8,11 @@ class Solution {
         for(int i = 0 ; i < n-2; i++ ){
             int target = nums[i], l = i+1,r = n-1;
             while(l<r){
-                if(nums[l] + nums[r] + target == 0 ){
+                int sum = nums[l] + nums[r] + target;
+                if(sum == 0 ){
                     result.add(new ArrayList<>(Arrays.asList(target,nums[l],nums[r])));
                 }
-                if(nums[l] + nums[r] + target > 0)
+                if(sum > 0)
                     --r;
                 else
                     ++l;
