@@ -4,7 +4,6 @@ class Solution {
         Set<List<Integer>> result = new HashSet<>();
 
         Arrays.sort(nums);
-        System.out.println(nums);
 
         for(int i = 0 ; i < n-2; i++ ){
             int target = nums[i], l = i+1,r = n-1;
