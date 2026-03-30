@@ -1,0 +1,26 @@
+class Solution {
+    public boolean checkStrings(String s1, String s2) {
+        int[] odd = new int[26];
+        int[] even = new int[26];
+        int count = 0;
+        for(int i = 0; i < s1.length(); i++){
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+            if(i%2 == 0){
+                odd[ch1 - 'a']++;
+                odd[ch2 - 'a']--;
+            }
+            else {
+                even[ch1 - 'a']++;
+                even[ch2 - 'a']--;
+            }
+        }
+
+        for(int i = 0; i < 26; i++) {
+            if(odd[i] != 0 || even[i] != 0)
+                return false;
+        }
+        
+        return true;
+    }
+}
