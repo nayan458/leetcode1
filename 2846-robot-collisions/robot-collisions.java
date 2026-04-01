@@ -2,7 +2,7 @@ class Solution {
     public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
         Stack<int[]> stk = new Stack<>();
         List<Integer> ans = new ArrayList<>();
-        PriorityQueue<int[]> heap = new PriorityQueue<>((a,b) -> Integer.compare(a[1],b[1]));
+        
         int n = positions.length;
         int[][] robots = new int[n][4];
         for(int i = 0; i < n; i++) {
@@ -23,18 +23,23 @@ class Solution {
             }
             else{
                 while(!stk.isEmpty() && health > stk.peek()[1]){
-                    stk.pop();
+                    healths[stk.pop()[3]] = 0;
                     --health;
                 }
                 if(stk.isEmpty()) {
                     if(health > 0)
-                        heap.add(new int[] {health, idx});
+                        healths[idx] = health;
                 } else {
                     int[] rbt = stk.pop();
                     int rbt_health = rbt[1];
                     int rbt_idx = rbt[3];
-                    if(rbt_health == health) continue;
+                    if(rbt_health == health) {
+                        healths[rbt_idx] = 0;
+                        healths[idx] = 0;
+                        continue;
+                    } 
                     if((rbt_health-1) > 0) {
+                        healths[idx] = 0;
                         --rbt[1];
                         stk.add(rbt);
                     }
@@ -45,11 +50,12 @@ class Solution {
 
         while(!stk.isEmpty()) {
             int[] robot = stk.pop();
-            heap.add(new int[] {robot[1], robot[3]});
+            healths[robot[3]] = robot[1];
         }
 
-        while(!heap.isEmpty())
-            ans.add(heap.poll()[0]);
+        for(int health: healths)
+            if(health > 0)
+                ans.add(health);
 
         return ans;
     }
