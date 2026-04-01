@@ -1,6 +1,6 @@
 class Solution {
     public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
-        Stack<Integer> stk = new Stack<>();
+        Deque<Integer> stk = new ArrayDeque<>();
         List<Integer> ans = new ArrayList<>();
         
         int n = positions.length;
@@ -17,7 +17,7 @@ class Solution {
             int health = healths[idx];
             char direction = directions.charAt(idx);
             if(direction == 'R') {
-                stk.add(idx);
+                stk.push(idx);
             }
             else{
                 while(!stk.isEmpty() && health > healths[stk.peek()]){
@@ -39,7 +39,7 @@ class Solution {
                     if((rbt_health-1) > 0) {
                         healths[idx] = 0;
                         --healths[rbt_idx];
-                        stk.add(rbt_idx);
+                        stk.push(rbt_idx);
                     }
                 }
             }
