@@ -4,10 +4,10 @@ class Solution {
         List<Integer> ans = new ArrayList<>();
         
         int n = positions.length;
-        int[][] robots = new int[n][4];
+        int[][] robots = new int[n][2];
         for(int i = 0; i < n; i++) {
             robots[i][0] = positions[i];                            // 0: Position
-            robots[i][1] = i;                                       // 3: Index
+            robots[i][1] = i;                                       // 1: Index
         }
         // sort by position in asscending order
         Arrays.sort(robots,(a,b) -> Integer.compare(a[0],b[0]));
