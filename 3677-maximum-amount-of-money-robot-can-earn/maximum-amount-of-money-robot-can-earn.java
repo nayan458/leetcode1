@@ -5,11 +5,17 @@ class Solution {
         int n = coins[0].length + 1;
         this.t = new int[m][n][3];
 
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
-                for(int k = 0; k < 3; k++)
-                    if(i == 0 || j == 0)
-                        t[i][j][k] = Integer.MIN_VALUE;
+        for(int i = 0; i < m; i++) {
+            t[i][0][0] = Integer.MIN_VALUE;
+            t[i][0][1] = Integer.MIN_VALUE;
+            t[i][0][2] = Integer.MIN_VALUE;
+        }
+
+        for(int i = 0; i < n; i++) {
+            t[0][i][0] = Integer.MIN_VALUE;
+            t[0][i][1] = Integer.MIN_VALUE;
+            t[0][i][2] = Integer.MIN_VALUE;
+        }
 
         for(int i = 1; i < m; i++)
             for(int j = 1; j < n; j++)
