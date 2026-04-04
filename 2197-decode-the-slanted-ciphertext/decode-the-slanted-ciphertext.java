@@ -3,18 +3,28 @@ class Solution {
         if (rows == 1) return encodedText;
 
         int len = encodedText.length();
-        int cols = (int)Math.ceil((double) len / rows);
+        int cols = (len + rows - 1) / rows;
 
-        StringBuilder str = new StringBuilder(len);
+        char[] result = new char[len];
+        int pos = 0;
 
-        for (int i = 0; i < cols; i++) {
-            int idx = i;
-            while (idx < len) {
-                str.append(encodedText.charAt(idx));
-                idx += cols + 1;
+        for (int startCol = 0; startCol < cols; startCol++) {
+            int r = 0, c = startCol;
+
+            while (r < rows && c < cols) {
+                int idx = r * cols + c;
+                if (idx < len) {
+                    result[pos++] = encodedText.charAt(idx);
+                }
+                r++;
+                c++;
             }
         }
 
-        return str.toString().stripTrailing();
+        // remove trailing spaces
+        int end = pos - 1;
+        while (end >= 0 && result[end] == ' ') end--;
+
+        return new String(result, 0, end + 1);
     }
 }
