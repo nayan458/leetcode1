@@ -1,12 +1,5 @@
 class Solution {
 
-    private Comparator<int[]> cmp = (a,b) -> {
-        if(a[0] == b[0])
-            return Integer.compare(a[1], b[1]);
-        return Integer.compare(a[0], b[0]);
-    };
-
-
     public int robotSim(int[] commands, int[][] obstacles) {
         int x = 0, y = 0;
         int idx = 0;
@@ -43,7 +36,7 @@ class Solution {
                         break;
                     x += dir[idx];
                 }
-            System.out.println(x + " " + y);
+                
             max = Math.max(max,((x*x) + (y*y)));
         }
 
