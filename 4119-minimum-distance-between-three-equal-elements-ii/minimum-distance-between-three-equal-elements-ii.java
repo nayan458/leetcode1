@@ -19,7 +19,7 @@ class Solution {
             int i = indxArr.get(idx);
             int j = indxArr.get(idx+1);
             int k = indxArr.get(idx+2);
-            min = Math.min(min, (Math.abs(j - i) + Math.abs(k - j) + Math.abs(k - i)));
+            min = Math.min(min, ((j - i) + (k - j) + (k - i)));
             idx++;
         }
         return min;
