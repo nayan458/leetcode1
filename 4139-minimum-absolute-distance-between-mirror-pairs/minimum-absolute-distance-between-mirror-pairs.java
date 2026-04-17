@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         int ans = n;
 
-        Map<Integer, Integer> lastIndex = new HashMap<>();
+        Map<Integer, Integer> lastIndex = new HashMap<>(n);
 
         for (int j = 0; j < n; j++) {
             int x = nums[j];
