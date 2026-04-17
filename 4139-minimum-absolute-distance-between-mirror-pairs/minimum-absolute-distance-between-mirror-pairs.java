@@ -17,12 +17,13 @@ class Solution {
     }
 
     private int minDiff(long x, List<Integer> list, int idx){
-        for(int elem: list)
-            if(elem > idx) return elem-idx;
+        int pos = upperBound(list, idx);
+        if(pos < list.size())
+            return list.get(pos) - idx;
         return Integer.MAX_VALUE;
     }
 
-    long reverse(int x) {
+    private long reverse(int x) {
         long rev = 0;
         while (x > 0) {
             rev = rev * 10 + (x % 10);
@@ -31,29 +32,17 @@ class Solution {
         return rev;
     }
 
-    // private int binarySearch(){
-    //     int l = 0, r = n-1;
-    //     while(l <= r) {
-    //         int mid = l + (r-l)/2;
-    //         boolean possible = isPossible(nums, reverseNum, mid);
-    //         if(possible && min == mid) break;
-    //         if(possible) {
-    //             min = Math.min(min,mid);
-    //             r = mid-1;
-    //         } else {
-    //             l = mid+1;
-    //         }
-    //     }
-    // }
-    // boolean isPossible(int[] nums, long[] reverseNum, int mid) {
-    //     if(mid == 0) return false;
-    //     System.out.println(mid);
+    private int upperBound(List<Integer> list, int target){
+        int l = 0, r = list.size();
+        while (l < r) {
+            int mid = l + (r - l) / 2;
 
-    //     for(int i = 0; i < nums.length - mid; i++){
-    //         if(reverseNum[i] == nums[i+mid])
-    //             return true;
-    //     }
-
-    //     return false;
-    // }
+            if (list.get(mid) > target) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return l;
+    }
 }
