@@ -1,7 +1,7 @@
 class Solution {
     public int maxDistance(int[] colors) {
         int n = colors.length;
-        int i = n - 1, j = 0, diff = 0;
+        int i = n - 1, j = 0;
 
         while(i>=0 && colors[0] == colors[i])
             i--;
