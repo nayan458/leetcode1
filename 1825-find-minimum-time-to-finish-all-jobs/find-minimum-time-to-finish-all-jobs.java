@@ -28,6 +28,7 @@ class Solution {
             workers[i] += jobs[idx-1];
             if(backtracking(jobs,workers,idx-1,max)) return true;
             workers[i] -= jobs[idx-1];
+            if(workers[i] == 0) break;
         }
         return false;
     }
