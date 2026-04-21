@@ -35,35 +35,29 @@ class DSU {
 class Solution {
     public int minimumHammingDistance(int[] source, int[] target, int[][] allowedSwaps) {
         int n = source.length;
+        int hammingDistance = 0;
         DSU dsu = new DSU(n);
         createParentMaping(dsu, allowedSwaps);
 
-        Map<Integer, Set<Integer>> sourceElemIdx = new HashMap<>();
-        Map<Integer, Integer> freq = new HashMap<>();
+        Map<Integer, List<Integer>> groupByParent = new HashMap<>();
 
-        for(int i = 0; i < n; i++){
-            if(source[i] == target[i]) continue;
-            sourceElemIdx.computeIfAbsent(source[i], k -> new HashSet<>()).add(i);
-        }
+        for(int i = 0; i < n; i++)
+            groupByParent.computeIfAbsent(dsu.find(i), k -> new ArrayList<>()).add(i);
 
-        int hammingDistance = 0;
-
-        for(int i = 0; i < n; i++){
-            if(source[i] != target[i]){
-                boolean flag = false;
-
-                if(sourceElemIdx.containsKey(target[i]) && sourceElemIdx.get(target[i]).size() > 0)
-                    for(int idx: sourceElemIdx.get(target[i]))
-                        if(dsu.find(i) == dsu.find(idx)) {
-                            sourceElemIdx.get(target[i]).remove(idx);
-                            flag = true;
-                            break;
-                        }
-                if(!flag) hammingDistance++;
+        for(List<Integer> group: groupByParent.values()){
+            Map<Integer, Integer> freq = new HashMap<>();
+            for(int idx: group)
+                freq.put(source[idx],freq.getOrDefault(source[idx], 0) + 1);
+            
+            for(int idx: group) {
+                if(freq.getOrDefault(target[idx],0) > 0)
+                    freq.put(target[idx], freq.get(target[idx]) - 1);
+                else
+                    hammingDistance++;
             }
         }
 
-        return hammingDistance;
+        return hammingDistance;       
     }
 
     private void createParentMaping(DSU dsu, int[][] edges) {
