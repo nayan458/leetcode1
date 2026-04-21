@@ -1,29 +1,22 @@
 class Solution {
-
-    int[] parent;
-
-    public int findP(int node){
-        if(parent[node] == node)
-            return node;
-        return parent[node] = findP(parent[node]);
-    }
-
     public int[] findRedundantConnection(int[][] edges) {
-        int n = edges.length + 1;
-        parent = new int[n];
-        for(int i = 0; i < n; i++)
-            parent[i] = i;
-        
-        for(int[] edge: edges){
-            int u = edge[0];
-            int v = edge[1];
-            int p_u = findP(parent[u]);
-            int p_v = findP(parent[v]);
+        int[] parent = java.util.stream.IntStream
+                        .rangeClosed(0,1001)
+                        .toArray();
 
-            if(p_u == p_v)
+        for(int[] edge: edges) {
+            int u = edge[0], v = edge[1];
+            int parentOfU = u, parentOfV = v;
+            while(parentOfU != parent[parentOfU])
+                parentOfU = parent[parentOfU];
+            while(parentOfV != parent[parentOfV])
+                parentOfV = parent[parentOfV];
+            if(parentOfU != parentOfV)
+                parent[parentOfU] = parentOfV;
+            else
                 return edge;
-            parent[p_u] = p_v;
         }
-        return new int[] {0,0};
+
+        return new int[0];
     }
 }
