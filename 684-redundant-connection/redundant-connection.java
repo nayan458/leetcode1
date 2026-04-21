@@ -6,7 +6,7 @@ class Solution {
 
         for(int[] edge: edges) {
             int u = edge[0], v = edge[1];
-            int parentOfU = u, parentOfV = v;
+            int parentOfU = parent[u], parentOfV = parent[v];
             while(parentOfU != parent[parentOfU])
                 parentOfU = parent[parentOfU];
             while(parentOfV != parent[parentOfV])
