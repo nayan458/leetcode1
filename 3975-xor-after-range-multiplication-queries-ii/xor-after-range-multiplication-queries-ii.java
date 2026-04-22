@@ -8,7 +8,7 @@ class Solution {
         this.blockSize = (int) Math.ceil(Math.sqrt(n));
         this.blocks = new int[blockSize];
         
-        Map<Integer,List<int[]>> groupByK = new HashMap<>(n);
+        Map<Integer,List<int[]>> groupByK = new HashMap<>(blockSize);
         
         for(int[] query: queries) {
             int l = query[0], r = query[1], k = query[2], v = query[3];
