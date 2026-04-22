@@ -1,25 +1,75 @@
 class Solution {
-    public int xorAfterQueries(int[] nums, int[][] q) {
+    private int blockSize;
+    private int[] blocks;
+    private final static int MOD = 1_000_000_007;
+
+    public int xorAfterQueries(int[] nums, int[][] queries) {
+        int n = nums.length;
+        this.blockSize = (int) Math.ceil(Math.sqrt(n));
+        this.blocks = new int[blockSize];
         
-        if(nums.length==60000) return 976287469;
-        if(nums.length>10000 && nums[1000]==1) return 576206930;
-        if(nums.length==100000) return 418516798;
-        int m=q.length;
-        int mod=(int)1e9+7;
-        for(int i=0;i<m;i++){
-            int st=q[i][0];
-            int ed=q[i][1];
-            int inc=q[i][2];
-            int mul=q[i][3];
-            for(int j=st;j<=ed;j+=inc){
-                nums[j]=(int)((1L*nums[j]*mul)%mod);
+        Map<Integer,List<int[]>> groupByK = new HashMap<>();
+        for(int[] query: queries) {
+            int l = query[0], r = query[1], k = query[2], v = query[3];
+            if(k > blockSize)  {
+                for(int i = l; i <= r; i+= k)
+                    nums[i] = (int)((long)nums[i] * v % MOD);
             }
+            else
+                groupByK.computeIfAbsent(k, c -> new ArrayList<>()).add(query);
+
         }
-        int sum=nums[0];
-        for(int i=1;i<nums.length;i++){
-            sum^=nums[i];
+
+        for(List<int[]> queryGroup: groupByK.values())
+            compute(queryGroup,queryGroup.get(0)[2],nums);
+
+        int xor = 0;
+
+        for(int elem: nums)
+            xor ^= elem;
+
+        return xor;
+    }
+
+    private void compute(List<int[]> queries, int k, int[] nums) {
+        int n = nums.length;
+        int[] diff = new int[n];
+
+        Arrays.fill(diff, 1);
+
+        for(int[] query: queries){
+            int l = query[0], r = query[1], v = query[3];
+
+            diff[l] = (int)((long)diff[l] * v % MOD);
+
+            int steps = (r-l) / k;
+            int next = l + (steps + 1) * k;
+
+            if(next < n)
+                diff[next] = (int)((long)diff[next] * modInverse(v) % MOD);
         }
-        return sum;
+
+        for(int i = k; i < n; i++)
+            diff[i] = (int)((long)diff[i] * diff[i-k] % MOD);
+
+        for(int i = 0; i < n; i++)
+            nums[i] = (int)((long)nums[i] * diff[i] % MOD);
+    }
+
+    private int modPow(int base, int exp) {
+        long result = 1;
+        long b = base;
+
+        while (exp > 0) {
+            if ((exp & 1) == 1) result = (result * b) % MOD;
+            b = (b * b) % MOD;
+            exp >>= 1;
+        }
+
+        return (int) result;
+    }
+
+    private int modInverse(int x) {
+        return modPow(x, MOD - 2);
     }
 }
-    
