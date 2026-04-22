@@ -8,7 +8,8 @@ class Solution {
         this.blockSize = (int) Math.ceil(Math.sqrt(n));
         this.blocks = new int[blockSize];
         
-        Map<Integer,List<int[]>> groupByK = new HashMap<>();
+        Map<Integer,List<int[]>> groupByK = new HashMap<>(n);
+        
         for(int[] query: queries) {
             int l = query[0], r = query[1], k = query[2], v = query[3];
             if(k > blockSize)  {
@@ -49,9 +50,14 @@ class Solution {
                 diff[next] = (int)((long)diff[next] * modInverse(v) % MOD);
         }
 
-        for(int i = k; i < n; i++)
-            diff[i] = (int)((long)diff[i] * diff[i-k] % MOD);
-
+        // for(int i = k; i < n; i++)
+        //     diff[i] = (int)((long)diff[i] * diff[i-k] % MOD);
+        for (int rem = 0; rem < k; rem++) {
+            for (int i = rem + k; i < n; i += k) {
+                diff[i] = (int)((long)diff[i] * diff[i - k] % MOD);
+            }
+        }
+        
         for(int i = 0; i < n; i++)
             nums[i] = (int)((long)nums[i] * diff[i] % MOD);
     }
