@@ -6,7 +6,6 @@ class Solution {
     public int xorAfterQueries(int[] nums, int[][] queries) {
         int n = nums.length;
         this.blockSize = (int) Math.ceil(Math.sqrt(n));
-        this.blocks = new int[blockSize];
         
         Map<Integer,List<int[]>> groupByK = new HashMap<>(blockSize);
         
@@ -23,7 +22,7 @@ class Solution {
         }
 
         for(List<int[]> queryGroup: groupByK.values())
-            compute(queryGroup,queryGroup.get(0)[2],nums);
+            compute(queryGroup,nums);
 
         int xor = 0;
 
@@ -33,15 +32,15 @@ class Solution {
         return xor;
     }
 
-    private void compute(List<int[]> queries, int k, int[] nums) {
+    private void compute(List<int[]> queries, int[] nums) {
         int n = nums.length;
         int[] diff = new int[n];
-
+        int k = 0;
         Arrays.fill(diff, 1);
 
         for(int[] query: queries){
             int l = query[0], r = query[1], v = query[3];
-
+            k = query[2];
             diff[l] = (int)((long)diff[l] * v % MOD);
 
             int steps = (r-l) / k;
