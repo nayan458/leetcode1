@@ -1,47 +1,79 @@
 class Solution {
-    public long[] distance(int[] nums) {
-        Map<Integer,List<Integer>> hm = new HashMap<>();
-        long[] distances = new long[nums.length];
 
-        for(int i = 0; i < nums.length; i++)
-            hm.computeIfAbsent(nums[i],k -> new ArrayList<>()).add(i);
-        
-        for(List<Integer> idxs: hm.values()) 
-            compute(distances,idxs);
+    static class BIT {
+        private long[] countTree, sumTree;
+        private int n;
 
-        return distances;
+        BIT(int n) {
+            this.n = n;
+            this.countTree = new long[n + 1];
+            this.sumTree   = new long[n + 1];
+        }
+
+        void update(int i, long actualIdx) {
+            for (int j = i + 1; j <= n; j += j & -j) {
+                countTree[j] += 1;
+                sumTree[j]   += actualIdx;
+            }
+        }
+
+        // count and sum of [0..i]
+        long[] query(int i) {
+            long count = 0, sum = 0;
+            for (int j = i + 1; j > 0; j -= j & -j) {
+                count += countTree[j];
+                sum   += sumTree[j];
+            }
+            return new long[]{count, sum};
+        }
     }
 
-    private void compute(long[] distance, List<Integer> idxs) {
-        
-        int n = idxs.size();
-        long[] prefixSum = new long[n];
+    public long[] distance(int[] nums) {
+        int n = nums.length;
+        long[] distances = new long[n];
 
-        if(n == 1) return;
-        
-        prefixSum[0] = idxs.get(0);
+        // Group indices by value
+        Map<Integer, List<Integer>> groups = new HashMap<>();
+        for (int i = 0; i < n; i++)
+            groups.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
 
-        for(int i = 1; i < n; i++)
-            prefixSum[i] = prefixSum[i-1] + idxs.get(i);
-        
-        // System.out.println(Arrays.toString(prefixSum));
+        for (List<Integer> idxs : groups.values()) {
+            int m = idxs.size();
+            if (m == 1) continue;
 
-        for(int i = 0; i < n; i++) {
-    
-            long prefixCurr = i * 1l * idxs.get(i);
-            long suffixCurr = (n-i-1) * 1l * idxs.get(i);
+            // BIT sized to the group, not to n
+            BIT bit = new BIT(m);
 
-            long prefixSumOfElem = i == 0 ? 0 : prefixSum[i-1];
-            long suffixSumOfElem = i == n-1 ? 0 : prefixSum[n-1] - prefixSum[i];
+            for (int rank = 0; rank < m; rank++) {
+                int idx = idxs.get(rank);         // actual array index
+                
+                // prefix: all ranks before current
+                long[] pre     = rank > 0 ? bit.query(rank - 1) : new long[]{0, 0};
+                long prefixDist = pre[0] * idx - pre[1];
 
-            long prefixDistance = Math.abs(prefixCurr - prefixSumOfElem);
-            long suffixDistance = Math.abs(suffixCurr - suffixSumOfElem);
+                // suffix: derive from totals - prefix - self (not yet inserted)
+                // totals computed lazily after full build — handled below
+                // Insert current element at its rank
+                bit.update(rank, idx);
 
-            // System.out.println("Prefix Current elem: " + prefixCurr + "Suffix Current elem: " + suffixCurr);
-            // System.out.println("prefixSumOfElem: " + prefixSumOfElem + " suffixSumOfElem: " + suffixSumOfElem);
-            // System.out.println("prefixDistance: " + prefixDistance + " suffixDistance: " + suffixDistance);
+                distances[idx] = prefixDist; // suffix added in second pass
+            }
 
-            distance[idxs.get(i)] = prefixDistance + suffixDistance;
+            // Second pass: suffix distances using total prefix - prefix up to rank
+            long[] total = bit.query(m - 1);   // full group count and sum
+
+            for (int rank = 0; rank < m; rank++) {
+                int idx = idxs.get(rank);
+
+                long[] pre      = rank > 0 ? bit.query(rank - 1) : new long[]{0, 0};
+                long suffixCount = total[0] - pre[0] - 1;          // exclude self
+                long suffixSum   = total[1] - pre[1] - idx;
+                long suffixDist  = suffixSum - suffixCount * idx;
+
+                distances[idx] += suffixDist;
+            }
         }
+
+        return distances;
     }
 }
