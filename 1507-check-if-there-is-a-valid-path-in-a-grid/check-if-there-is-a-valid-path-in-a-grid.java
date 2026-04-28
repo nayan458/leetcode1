@@ -43,12 +43,16 @@ class Solution {
     private boolean connectsBack(int fromRow, int fromCol, int toRow, int toCol, int[][] grid) {
         int street = grid[toRow][toCol] - 1;
         for(int[] direction: directions[street]){
-            if(toRow + direction[0] == fromRow && toCol + direction[1] == fromCol) return true;
+            int backRow = toRow + direction[0];
+            int backCol = toCol + direction[1];
+            if(backRow == fromRow && backCol == fromCol) return true;
         }
         return false;
     }
 
     private boolean isValid(int row, int col) {
-        return row >= 0 && col >= 0 && row < m && col < n;
+        if(row < 0 || col < 0 || row >= m || col >= n)
+            return false;
+        return true;
     }
 }
