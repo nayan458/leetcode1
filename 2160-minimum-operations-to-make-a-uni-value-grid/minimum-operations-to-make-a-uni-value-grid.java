@@ -15,8 +15,8 @@ class Solution {
         int r = arr.length;
         int mid = r/2;
         int opp = calcOpp(arr,mid,x);
-        if(r % 2 == 0)
-            opp = Math.min(opp,calcOpp(arr,mid-1,x));
+        // if(r % 2 == 0)
+        //     opp = Math.min(opp,calcOpp(arr,mid-1,x));
         return opp;
     }
 
@@ -25,8 +25,6 @@ class Solution {
         int opp = 0;
         for(int elem: arr)
             opp += (int)(Math.abs(elem - midElem) / x);
-        // System.out.println("midElem: " + midElem);
-        // System.out.println("opp: " + opp);
         return opp;
     }
 
