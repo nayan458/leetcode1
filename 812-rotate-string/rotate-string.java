@@ -32,7 +32,7 @@ class Solution {
                     i++;
             }
         }
-        return j==m;         
+        return false;
     }
 
     private int[] LPS(String s) {
