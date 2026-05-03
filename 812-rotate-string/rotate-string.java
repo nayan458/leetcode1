@@ -2,12 +2,13 @@ class Solution {
     public boolean rotateString(String s, String goal) {
         if(s.length() != goal.length()) return false;
 
-        int n = s.length();
-        int[] lps = LPS(goal);
+        // int n = s.length();
+        // int[] lps = LPS(goal);
 
         s = s + s;
 
-        return kmp(s,goal,lps);
+        return s.indexOf(goal) != -1;
+        // return kmp(s,goal,lps);
     }
 
     private boolean kmp(String s, String p, int[] lps) {
