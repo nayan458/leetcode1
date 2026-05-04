@@ -4,8 +4,6 @@ class Solution {
 
         transpose(matrix);
 
-        System.out.println(Arrays.deepToString(matrix));
-
         for(int[] row: matrix)
             reverse(row);
     }
@@ -19,7 +17,7 @@ class Solution {
             row[i] = row[n-i-1];
             row[n-i-1] = temp;            
         }
-        
+
     }
 
     void transpose(int[][] matrix) {
