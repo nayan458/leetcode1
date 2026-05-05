@@ -10,34 +10,30 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
+        if(head == null) return head;
 
-        if(head == null || head.next == null)
-            return head;
-
-        // calculate number of nodes
-        int n = 1;
+        int nodeCount = 1;
         ListNode ptr = head;
-        
-        while(ptr.next != null){
-            n++;
-            ptr = ptr.next;
-        }
-        // connect the end to the begin
-        ptr.next = head;
-        // calculate the cut
-        k = k % n; // number of rotations
-        k = n - k; // this k is the node that we will detech
-        ptr = head;
 
-        System.out.println(k);
-        while(k-- != 1) {
+        while(ptr.next != null) {
             ptr = ptr.next;
-            System.out.printf("ptr.val: %d, k: %d\n",ptr.val,k);
+            nodeCount++;
         }
+
+        ptr.next = head;
+        k = k % nodeCount;
+
+        // System.out.println(k);
+        
+        ptr = head;
+        // System.out.println("nodeCount: " + nodeCount + " k: " + k + " step: " + (nodeCount - k));   
+        for(int i = 0; i < nodeCount - k - 1; i++) 
+            ptr = ptr.next;
+        // }
+            // System.out.println(ptr.val);
 
         head = ptr.next;
         ptr.next = null;
-
         return head;
     }
 }
