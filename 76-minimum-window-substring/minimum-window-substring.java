@@ -1,8 +1,11 @@
 class Solution {
-    private String ans = new String("");
+
     public String minWindow(String s, String t) {
         int s_length = s.length();
         int t_length = t.length();
+
+        int size = Integer.MAX_VALUE;
+        int start = 0;
 
         Map<Character, Integer> reqFrequency = new HashMap<>(26);
         Map<Character, Integer> curFrequency = new HashMap<>(26);
@@ -34,16 +37,18 @@ class Solution {
             int count = 0;
             for(char keyCh: curFrequency.keySet())
                 count += Math.min(curFrequency.get(keyCh),reqFrequency.get(keyCh));
-            if(count == t_length)
-                minString(left,right,s);
+
+            if(count == t_length) {
+                int currSize = right - left + 1;
+                if(currSize < size) {
+                    start = left;
+                    size = currSize;
+                }
+            }
+                
             right++;
         }
-        return ans;
-    }
 
-    void minString(int left, int right, String s) {
-        if(ans.equals("") || ans.length() > (right - left + 1))
-            ans = s.substring(left,right+1);
-        return;
+        return size == Integer.MAX_VALUE ? "" : s.substring(start, start + size);
     }
 }
