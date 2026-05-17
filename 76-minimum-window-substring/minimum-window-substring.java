@@ -33,7 +33,7 @@ class Solution {
                 left++;
                 if(curFrequency.containsKey(prevCh)) {
                     curFrequency.put(prevCh,curFrequency.get(prevCh) - 1);
-                    if(curFrequency.get(ch) <  reqFrequency.get(ch))
+                    if(curFrequency.get(prevCh) <  reqFrequency.get(prevCh))
                         count--;
                 }
                 prevCh = s.charAt(left);
@@ -41,7 +41,6 @@ class Solution {
             
 
             // check if both the hm are equal
-
             if(count == t_length) {
                 int currSize = right - left + 1;
                 if(currSize < size) {
