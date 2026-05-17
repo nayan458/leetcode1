@@ -30,12 +30,12 @@ class Solution {
             while(!reqFrequency.containsKey(prevCh) || (curFrequency.get(prevCh) > reqFrequency.get(prevCh))) {
                 if(left == right)
                     break;
-                left++;
                 if(curFrequency.containsKey(prevCh)) {
                     curFrequency.put(prevCh,curFrequency.get(prevCh) - 1);
                     if(curFrequency.get(prevCh) <  reqFrequency.get(prevCh))
                         count--;
                 }
+                left++;
                 prevCh = s.charAt(left);
             }
             
