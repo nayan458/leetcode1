@@ -6,6 +6,7 @@ class Solution {
 
         int size = Integer.MAX_VALUE;
         int start = 0;
+        int count = 0;
 
         Map<Character, Integer> reqFrequency = new HashMap<>(26);
         Map<Character, Integer> curFrequency = new HashMap<>(26);
@@ -18,8 +19,11 @@ class Solution {
         int right = 0, left = 0;
         while(right < s_length) {
             char ch = s.charAt(right);
-            if(reqFrequency.containsKey(ch))
+            if(reqFrequency.containsKey(ch)) {
                 curFrequency.put(ch, curFrequency.getOrDefault(ch,0)+1);
+                if(curFrequency.get(ch) <=  reqFrequency.get(ch))
+                    count++;
+            }
             
             // check if we can srink the window
             char prevCh = s.charAt(left);
@@ -27,16 +31,16 @@ class Solution {
                 if(left == right)
                     break;
                 left++;
-                if(curFrequency.containsKey(prevCh))
+                if(curFrequency.containsKey(prevCh)) {
                     curFrequency.put(prevCh,curFrequency.get(prevCh) - 1);
+                    if(curFrequency.get(ch) <  reqFrequency.get(ch))
+                        count--;
+                }
                 prevCh = s.charAt(left);
             }
             
 
             // check if both the hm are equal
-            int count = 0;
-            for(char keyCh: curFrequency.keySet())
-                count += Math.min(curFrequency.get(keyCh),reqFrequency.get(keyCh));
 
             if(count == t_length) {
                 int currSize = right - left + 1;
