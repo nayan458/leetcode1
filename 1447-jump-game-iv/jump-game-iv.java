@@ -29,14 +29,16 @@ class Solution {
                 int idx = q.poll();
                 if(idx == n-1) return jump;
 
-                if(!set.contains(arr[idx])) 
+                if(!set.contains(arr[idx])) {
+                    set.add(arr[idx]);
                     for(int neighbour: hm.get(arr[idx])) {
                         if(!visited[neighbour]){
+                            if(neighbour == n-1) return jump+1;
                             visited[neighbour] = true;
                             q.offer(neighbour);
                         }
                     }
-                set.add(arr[idx]);
+                }
                 
                 if(idx > 0 && !visited[idx-1]){
                     q.offer(idx-1);
