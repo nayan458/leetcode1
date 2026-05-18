@@ -1,53 +1,105 @@
 class Solution {
+
     public int minJumps(int[] arr) {
         int n = arr.length;
-        if (n == 1) return 0;
+        Map<Integer,Set<Integer>> hm = new HashMap<>();
 
-        // Group indices by value
-        Map<Integer, List<Integer>> valueToIndices = new HashMap<>();
-        for (int i = 0; i < n; i++)
-            valueToIndices.computeIfAbsent(arr[i], k -> new ArrayList<>()).add(i);
+        for(int i = 0; i < n; i++)
+            hm.computeIfAbsent(arr[i],k -> new HashSet<>()).add(i);
 
-        // BFS - level by level (each level = 1 jump)
-        Queue<Integer> queue = new ArrayDeque<>();
+        // create graph
+        // List<Set<Integer>> adjList = createGraph(hm, arr);
+
+        return bfs(arr,hm);
+    }
+
+    private int bfs(int[] arr, Map<Integer,Set<Integer>> hm) {
+        
+        int n = arr.length;
+        Deque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[n];
-        Set<Integer> expandedValues = new HashSet<>();
-
-        queue.offer(0);
+        Set<Integer> set = new HashSet<>();
         visited[0] = true;
-        int jumps = 0;
+        q.addLast(0);
+        int jump = -1;
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            jumps++;
+        while(!q.isEmpty()) {
+            
+            jump++;
+            int size = q.size();
 
-            while (size-- > 0) {
-                int idx = queue.poll();
+            while(size-- > 0){
+                int idx = q.removeFirst();
+                if(idx == n-1) return jump;
 
-                // Check left, right neighbors
-                int[] neighbors = {idx - 1, idx + 1};
-                for (int neighbor : neighbors) {
-                    if (neighbor == n - 1) return jumps;
-                    if (neighbor >= 0 && neighbor < n && !visited[neighbor]) {
-                        visited[neighbor] = true;
-                        queue.offer(neighbor);
-                    }
-                }
-
-                // Check same-value neighbors
-                if (!expandedValues.contains(arr[idx])) {
-                    expandedValues.add(arr[idx]);
-                    for (int neighbor : valueToIndices.get(arr[idx])) {
-                        if (neighbor == n - 1) return jumps;
-                        if (!visited[neighbor]) {
-                            visited[neighbor] = true;
-                            queue.offer(neighbor);
+                if(!set.contains(arr[idx])) 
+                    for(int neighbour: hm.get(arr[idx])) {
+                        if(!visited[neighbour]){
+                            visited[neighbour] = true;
+                            q.addLast(neighbour);
                         }
                     }
+                set.add(arr[idx]);
+                
+                if(idx > 0 && !visited[idx-1]){
+                    q.addLast(idx-1);
+                    visited[idx-1] = true;
+                }
+                if(idx < n-1 && !visited[idx+1]){
+                    q.addLast(idx+1);
+                    visited[idx+1] = true;
                 }
             }
         }
 
-        return -1; // unreachable given problem constraints
-    }
+        return n-1;
+    }   
+
+    // private List<Set<Integer>> createGraph(HashMap<Integer,Set<Integer>> hm, int[] arr) {
+    //     List<Set<Integer>> adjList = new ArrayList<>();
+        
+    //     for(int i = 0; i < n; i++) {
+    //         adjList.add(new HashSet<>());
+    //         if(i > 0)
+    //             adjList.get(i).add(i-1);
+    //         if(i < n-1)
+    //             adjList.get(i).add(i+1);
+    //     }
+
+    //     for(int u = 0; u < n; u++) {
+    //         for(int v: hm.get(arr[u])) {
+    //             adjList.get(u).add(v);
+    //             adjList.get(v).add(u);
+    //         }
+    //         set.add(arr[u]);
+    //     }
+    //     return adjList;
+    // }
+
+    // private int bfs(int[] arr,List<Set<Integer>> adjList) {
+        
+    //     int n = arr.length;
+    //     Deque<int[]> q = new ArrayDeque<>();
+    //     boolean[] visited = new boolean[n];
+
+    //     visited[0] = true;
+    //     q.addLast(new int[]{0,0});
+
+    //     while(!q.isEmpty()) {
+    //         int[] node = q.removeFirst();
+    //         int idx = node[0];
+    //         int jump = node[1];
+
+    //         if(idx == n-1) return jump;
+
+    //         for(int neighbour: adjList.get(idx)) {
+    //             if(!visited[neighbour]){
+    //                 visited[neighbour] = true;
+    //                 q.addLast(new int[]{neighbour,jump+1});
+    //             }
+    //         }
+    //     }
+
+    //     return n-1;
+    // }   
 }
