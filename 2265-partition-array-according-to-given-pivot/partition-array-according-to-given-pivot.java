@@ -4,8 +4,6 @@ class Solution {
     private int pivotCount;
 
     public Solution() {
-        this.prev = new ArrayList<>();
-        this.next = new ArrayList<>();
         this.pivotCount = 0;
     }
 
@@ -14,11 +12,15 @@ class Solution {
         for(int elem: nums) {
             if(elem == pivot)
                 pivotCount++;
-            else if(elem > pivot)
-                next.add(elem);
-            else
-                prev.add(elem);
         }
+        prev = Arrays.stream(nums)
+            .filter(x -> x < pivot)
+            .boxed()
+            .toList();
+        next = Arrays.stream(nums)
+            .filter(x -> x > pivot)
+            .boxed()
+            .toList();
 
         int i = 0;
 
