@@ -1,38 +1,17 @@
 class Solution {
-    private List<Integer> prev;
-    private List<Integer> next;
-    private int pivotCount;
-
-    public Solution() {
-        this.pivotCount = 0;
-    }
-
     public int[] pivotArray(int[] nums, int pivot) {
-        int result[] = new int[nums.length];
-        for(int elem: nums) {
-            if(elem == pivot)
-                pivotCount++;
-        }
-        prev = Arrays.stream(nums)
-            .filter(x -> x < pivot)
-            .boxed()
-            .toList();
-        next = Arrays.stream(nums)
-            .filter(x -> x > pivot)
-            .boxed()
-            .toList();
+        IntStream less = Arrays.stream(nums)
+                            .filter(x -> x < pivot);
 
-        int i = 0;
+        IntStream equal = Arrays.stream(nums)
+                                .filter(x -> x == pivot);
 
-        for(int elem: prev)
-            nums[i++] = elem;
+        IntStream greater = Arrays.stream(nums)
+                                .filter(x -> x > pivot);
 
-        while(pivotCount-- != 0)
-            nums[i++] = pivot;
-
-        for(int elem: next)
-            nums[i++] = elem;
-
-        return nums;
+        return IntStream.concat(
+                IntStream.concat(less, equal),
+                greater
+        ).toArray();
     }
 }
