@@ -12,8 +12,7 @@ class Solution {
 
         for(int i = 0; i < size; i++) {
             max = Math.max(nums[i],max);
-            int instabilityScore = max - min[i];
-            if(instabilityScore <= k) 
+            if((max - min[i]) <= k) 
                 return i;
         }
 
