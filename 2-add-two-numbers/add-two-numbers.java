@@ -23,7 +23,6 @@ class Solution {
             l1 = l1.next;
             l2 = l2.next;
             dummy = dummy.next;
-            System.out.println(sum % 10);
         }
 
         while(l1 != null) {
@@ -32,7 +31,6 @@ class Solution {
             dummy.next = new ListNode(sum % 10);
             l1 = l1.next;
             dummy = dummy.next;
-            System.out.println(sum % 10);
         }
 
         while(l2 != null) {
@@ -41,7 +39,6 @@ class Solution {
             dummy.next = new ListNode(sum % 10);
             l2 = l2.next;
             dummy = dummy.next;
-            System.out.println(sum % 10);
         }
 
         if(carry != 0)
