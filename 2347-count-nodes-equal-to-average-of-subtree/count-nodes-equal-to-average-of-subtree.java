@@ -18,19 +18,21 @@ class Solution {
 
     public int averageOfSubtree(TreeNode root) {
         lrnSum(root);
+        
         return count;
     }
 
     private int[] lrnSum(TreeNode root) {
         if(root == null)
-            return new int[2];
+            return new int[]{0,0};
+
         int[] left = lrnSum(root.left);
         int[] right = lrnSum(root.right);
 
-        int sum = root.val + left[0] + right[0];
-        int total =  1 + left[1] + right[1];
+        int sum = left[0] + right[0] + root.val;
+        int total = left[1] + right[1] + 1;
 
-        if(root.val == sum/total)   count++;
+        if(sum/total == root.val)   count++;
         return new int[]{sum, total};
     }
 
