@@ -19,29 +19,32 @@ class Solution {
     int count = 0;
 
     public int averageOfSubtree(TreeNode root) {
-        lrnNodes(root);
+        // lrnNodes(root);
         lrnSum(root);
-        for(TreeNode key: hmSum.keySet())
-            if(hmSum.get(key)/hmNodes.get(key) == key.val)
-                count++;
+        // for(TreeNode key: hmSum.keySet())
+        //     if(hmSum.get(key)/hmNodes.get(key) == key.val)
+        //         count++;
+
         return count;
     }
 
-    private int lrnSum(TreeNode root) {
+    private int[] lrnSum(TreeNode root) {
         if(root == null)
-            return 0;
-        int left = lrnSum(root.left);
-        int right = lrnSum(root.right);
-        int sum = root.val + left + right;
-        hmSum.put(root, sum);
-        return sum;
+            return new int[2];
+        int[] left = lrnSum(root.left);
+        int[] right = lrnSum(root.right);
+
+        int sum = root.val + left[0] + right[0];
+        int total =  1 + left[1] + right[1];
+
+        if(root.val == sum/total)   count++;
+        return new int[]{sum, total};
     }
 
-    private int lrnNodes(TreeNode root) {
-        if(root == null)
-            return 0;
-        int total = lrnNodes(root.left) + lrnNodes(root.right) + 1;
-        hmNodes.put(root,total);
-        return total;
-    }
+    // private int lrnNodes(TreeNode root) {
+    //     if(root == null)
+    //         return 0;
+    //     hmNodes.put(root,total);
+    //     return total;
+    // }
 }
