@@ -14,17 +14,10 @@
  * }
  */
 class Solution {
-    Map<TreeNode, Integer> hmSum = new HashMap<>();
-    Map<TreeNode, Integer> hmNodes = new HashMap<>();
     int count = 0;
 
     public int averageOfSubtree(TreeNode root) {
-        // lrnNodes(root);
         lrnSum(root);
-        // for(TreeNode key: hmSum.keySet())
-        //     if(hmSum.get(key)/hmNodes.get(key) == key.val)
-        //         count++;
-
         return count;
     }
 
@@ -41,10 +34,4 @@ class Solution {
         return new int[]{sum, total};
     }
 
-    // private int lrnNodes(TreeNode root) {
-    //     if(root == null)
-    //         return 0;
-    //     hmNodes.put(root,total);
-    //     return total;
-    // }
 }
