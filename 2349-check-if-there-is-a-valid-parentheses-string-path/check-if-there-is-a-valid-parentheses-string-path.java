@@ -3,6 +3,7 @@ class Solution {
     private Boolean[][][] t;
     
     public boolean hasValidPath(char[][] grid) {
+        if(grid[0][0] == ')') return false;
         this.grid = grid;
         int n = grid.length, m = grid[0].length;
         this.t = new Boolean[n+1][m+1][401];
