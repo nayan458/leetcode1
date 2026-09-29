@@ -7,8 +7,6 @@ class Solution {
         int n = grid.length, m = grid[0].length;
         this.t = new Boolean[n+1][m+1][401];
 
-        if(grid[0][0] == ')' || grid[n-1][m-1] == '(')   return false;
-
         return dp(n,m,0);
     }
 
