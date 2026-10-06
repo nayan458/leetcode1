@@ -3,8 +3,7 @@ class Solution {
        int x = 0;
        int sum = 0;
 
-       for(int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
+       for(char ch: s.toCharArray()) {
             sum += ch == '(' ? 1 : -1;
             if(sum < 0)
                 x++;
